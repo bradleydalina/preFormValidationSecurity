@@ -100,7 +100,7 @@ class preFVS {
                           ${_s} select:not(:user-invalid):focus{
                               border:solid 1px #000;       
                             }    
-                          ${_s} input:not([type=radio],[type=checkbox]):user-invalid, 
+                          ${_s} input:not([type="radio"]):not([type="checkbox"]):user-invalid, 
                           ${_s} select:user-invalid,
                           ${_s} textarea:user-invalid{
                                 border: solid 1px #ff0000 !important;
