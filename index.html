@@ -5,11 +5,12 @@
 	<meta charset="UTF-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<title>Javascript - Pre Form Validation Security</title>
- 
+
 	<style>
+    html, body{scroll-behavior:smooth;}
 		body {
 			margin: 0;
-      font-size:15px;
+			font-size: 15px;
 			font-family: Arial, sans-serif;
 		}
 
@@ -28,73 +29,214 @@
 			color: white;
 			padding: 30px;
 		}
-	
+
 		/* Sticky box inside aside */
 		.aside-sticky {
 			position: sticky;
 			top: 30px;
-			<!-- background: #111827; -->
+			/*background: #111827;*/
 			padding: 30px;
 			border-radius: 8px;
 		}
 
-    aside h2{color:#9f9fa9; text-align:left; margin-bottom:40px; margin-top:0;}
-    aside ul{list-style: none; text-align:left;}
-    aside > div > nav > ul{border-left:ridge 1px #eaeaeb54; padding-left:10px;}
-	  aside > div > nav > ul > li > ul{padding-left:25px;}
-    aside > div > nav > ul > li a{ color:#eaeaeba3;}
-    aside > div > nav > ul > li > a:hover,li > ul > li:hover a {color: white;}
-    aside > div > nav > ul > li.active::before{content:""; position:absolute;left:-11.5px; top:0; height:32px; border-left:
-    ridge 2px #ffc107;}
-    aside > div > nav > ul > li.active{position:relative;}
-    aside > div > nav > ul > li.active > a{color: white; font-weight: bold;}
-    aside > div > nav > ul > li.active > ul > li.active{background-color:#1f2937; border-radius: 4px;}
-    aside > div > nav > ul > li.active > ul > li{color:#eaeaeba3;}
-    li span{display:inline-block;margin-bottom:5px;}
-    aside ul li a{text-decoration:none; }
-    aside ul li a span{display:flex;padding:6px 8px; line-height: normal;}
+		aside h2 {
+			color: #9f9fa9;
+			text-align: left;
+			margin-bottom: 40px;
+			margin-top: 0;
+		}
+
+		aside ul {
+			list-style: none;
+			text-align: left;
+		}
+
+		aside>div>nav>ul {
+			border-left: ridge 1px #eaeaeb54;
+			padding-left: 10px;
+		}
+
+		aside>div>nav>ul>li>ul {
+			padding-left: 25px;
+		}
+
+		aside>div>nav>ul>li a {
+			color: #eaeaeba3;
+		}
+
+		aside>div>nav>ul>li>a:hover,
+		li>ul>li:hover a {
+			color: white;
+		}
+
+		aside>div>nav>ul>li.active::before {
+			content: "";
+			position: absolute;
+			left: -11.5px;
+			top: 0;
+			height: 32px;
+			border-left:
+				ridge 2px #ffc107;
+		}
+
+		aside>div>nav>ul>li.active {
+			position: relative;
+		}
+
+		aside>div>nav>ul>li.active>a {
+			color: white;
+			font-weight: bold;
+		}
+
+		aside>div>nav>ul>li.active>ul>li.active {
+			background-color: #1f2937;
+			border-radius: 4px;
+		}
+
+		aside>div>nav>ul>li.active>ul>li {
+			color: #eaeaeba3;
+		}
+
+		li span {
+			display: inline-block;
+			margin-bottom: 5px;
+		}
+
+		aside ul li a {
+			text-decoration: none;
+		}
+
+		aside ul li a span {
+			display: flex;
+			padding: 6px 8px;
+			line-height: normal;
+		}
 
 		/* Main content */
 		main {
 			flex: 1;
-			padding: 40px;
-			background-color: #fff;/*#f3f4f6;*/
+			padding: 0 40px;
+			background-color: #fff;
+			/*#f3f4f6;*/
 		}
 
 		.block {
 			background: transparent;
+			padding:20px;
+			margin-bottom:15px;
 			/*margin-bottom: 20px;*/
 			/*border-radius: 6px;
 			box-shadow: 0 0 5px rgba(0, 0, 0, .1);*/
 		}
-    main h2{margin-top:0;}
-    main p{text-align:justify; }
-	  main p, main li{line-height:22px;}
+	  main h2{
+      padding-top:50px;
+			margin-top:0;
+    }
+		main h2:not(:first-child){
+				margin-top:20px;
+		}
 
-    pre, code{font-family:monospace;line-height:normal;}
-	  pre>code>table{border-collapse: collapse; width:100%;}
-	  pre>code>table>tbody tr:first-of-type td{padding-top:15px;}
-	  pre>code>table>tbody tr:last-of-type td{padding-bottom:15px;}
-	  pre>code>table>tbody>tr td{padding:3px 15px; line-height:15px;}
-    pre>code>table>tbody>tr td:first-child{background-color:#ffc107; text-align:right;}
-	  pre>code>table>tbody>tr td:last-child{background-color:#f3f4f6;}
+		main p {
+			text-align: justify;
+		}
 
-/* HTML tokens */
-.-t { color: #005ccd; }/* Tag */
-.-v { color: #e71443; }/* Attribute value */
-.-a{ color: #4ade80; }
-.-c { color: #64748b; font-style: italic; }
-.-d { color: #c084fc; }
+		main p,
+		main li {
+			line-height: 22px;
+		}
 
-/* JS tokens */
-.token-keyword { color: #c084fc; font-weight: bold; }
-.token-string { color: #22d3ee; }
-.token-number { color: #fbbf24; }
-.token-boolean { color: #f472b6; }
-.token-function { color: #60a5fa; }
-.token-comment { color: #64748b; font-style: italic; }
-.token-operator { color: #f8fafc; }
-.token-constant { color: #fb7185; }
+		pre,
+		code {
+			font-family: monospace;
+			line-height: normal;
+		}
+
+		pre>code>table {
+			border-collapse: collapse;
+			width: 100%;
+		}
+
+		pre>code>table>tbody tr:first-of-type td {
+			padding-top: 15px;
+		}
+
+		pre>code>table>tbody tr:last-of-type td {
+			padding-bottom: 15px;
+		}
+
+		pre>code>table>tbody>tr td {
+			padding: 3px 15px;
+			line-height: 15px;
+		}
+
+		pre>code>table>tbody>tr td:first-child {
+			background-color: #ffc107;
+			text-align: right;
+      width:30px;
+		}
+
+		pre>code>table>tbody>tr td:last-child {
+			background-color: #f3f4f6;
+		}
+
+		/* HTML tokens */
+		.-t {
+			color: #005ccd;
+		}
+
+		/* Tag */
+		.-v {
+			color: #e71443;
+		}
+
+		/* Attribute value */
+		.-a {
+			color: #4ade80;
+		}
+
+		.-c {
+			color: #64748b;
+			font-style: italic;
+		}
+
+		.-d {
+			color: #c084fc;
+		}
+
+		/* JS tokens */
+		.token-keyword {
+			color: #c084fc;
+			font-weight: bold;
+		}
+
+		.token-string {
+			color: #22d3ee;
+		}
+
+		.token-number {
+			color: #fbbf24;
+		}
+
+		.token-boolean {
+			color: #f472b6;
+		}
+
+		.token-function {
+			color: #60a5fa;
+		}
+
+		.token-comment {
+			color: #64748b;
+			font-style: italic;
+		}
+
+		.token-operator {
+			color: #f8fafc;
+		}
+
+		.token-constant {
+			color: #fb7185;
+		}
 	</style>
 </head>
 
@@ -104,127 +246,134 @@
 		<aside>
 			<div class="aside-sticky">
 				<div class="-brand">
-					<h2><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="24" height="24" style="opacity:1;">
+					<h2><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="24" height="24"
+							style="opacity:1;">
 							<path fill="#F7DF1E" d="M0 0h256v256H0z" />
 							<path
 								d="m67.312 213.932l19.59-11.856c3.78 6.701 7.218 12.371 15.465 12.371c7.905 0 12.89-3.092 12.89-15.12v-81.798h24.057v82.138c0 24.917-14.606 36.259-35.916 36.259c-19.245 0-30.416-9.967-36.087-21.996m85.07-2.576l19.588-11.341c5.157 8.421 11.859 14.607 23.715 14.607c9.969 0 16.325-4.984 16.325-11.858c0-8.248-6.53-11.17-17.528-15.98l-6.013-2.58c-17.357-7.387-28.87-16.667-28.87-36.257c0-18.044 13.747-31.792 35.228-31.792c15.294 0 26.292 5.328 34.196 19.247l-18.732 12.03c-4.125-7.389-8.591-10.31-15.465-10.31c-7.046 0-11.514 4.468-11.514 10.31c0 7.217 4.468 10.14 14.778 14.608l6.014 2.577c20.45 8.765 31.963 17.7 31.963 37.804c0 21.654-17.012 33.51-39.867 33.51c-22.339 0-36.774-10.654-43.819-24.574" />
 						</svg> PreFVS</h2>
 				</div>
-        <nav>
-          <ul>
-            <li class="active"><a href="javascript:void(0);"><span>Getting Started</span></a>
-              <ul>
-                <li class="active"><a href="#overview"><span>Overview</span></a></li>
-                <li><a href="#features"><span>Features</span></a></li>
-                <li><a href="#installation"><span>Installation</span></a></li>
-                <li><a href="#quick-start"><span>Quick Start</span></a></li>
-              </ul>
-            </li>
-            <li><a href="javascript:void(0);"><span>Guide</span></a>
-              <ul>
-                <li><a href="#core-concepts"><span>Core Concepts</span></a></li>
-                <li><a href="#configuration"><span>Configuration</span></a></li>
-                <li><a href="#events-hooks"><span>Events & Hooks</span></a></li>
-                <li><a href="#validation-flows"><span>Validation Flow</span></a></li>
-                <li><a href="#error-handling"><span>Error Handling</span></a></li>
-              </ul>
-            </li>
-            <li><a href="#api-reference"><span>API Reference</span></a></li>
-            <li><a href="#examples"><span>Examples</span></a></li>
-            <li><a href="#advance-usage"><span>Advanced Usage</span></a></li>
-            <li><a href="#security"><span>Security</span></a></li>
-            <li><a href="#faq"><span>FAQ</span></a></li>
-            <li><a href="#changelog"><span>Changelog</span></a></li>
-          </ul>
-        </nav>
+				<nav>
+					<ul>
+						<li class="active"><a href="javascript:void(0);"><span>Getting Started</span></a>
+							<ul>
+								<li class="active"><a href="#overview"><span>Overview</span></a></li>
+								<li><a href="#features"><span>Features</span></a></li>
+								<li><a href="#installation"><span>Installation</span></a></li>
+								<li><a href="#quick-start"><span>Quick Start</span></a></li>
+							</ul>
+						</li>
+						<li><a href="javascript:void(0);"><span>Guide</span></a>
+							<ul>
+								<li><a href="#core-concepts"><span>Core Concepts</span></a></li>
+								<li><a href="#configuration"><span>Configuration</span></a></li>
+								<li><a href="#events-hooks"><span>Events & Hooks</span></a></li>
+								<li><a href="#validation-flows"><span>Validation Flow</span></a></li>
+								<li><a href="#error-handling"><span>Error Handling</span></a></li>
+							</ul>
+						</li>
+						<li><a href="#api-reference"><span>API Reference</span></a></li>
+						<li><a href="#examples"><span>Examples</span></a></li>
+						<li><a href="#advance-usage"><span>Advanced Usage</span></a></li>
+						<li><a href="#security"><span>Security</span></a></li>
+						<li><a href="#faq"><span>FAQ</span></a></li>
+						<li><a href="#changelog"><span>Changelog</span></a></li>
+					</ul>
+				</nav>
 			</div>
 		</aside>
 		<main>
 			<div class="block">
-        <h2 id="overview">Overview</h2>
-        <p>
-          Pre Form Validation Security is a lightweight JavaScript class helper designed to validate form inputs before they
-          are submitted to the server. It helps stop common client-side attacks, invalid data, and tampering by enforcing
-          rules directly in the browser.</p>
-          <p>
-          It enforce validation rules, and block unsafe or suspicious values in real time. By validating and filtering data at
-          the earliest point—the form itself—the library helps improve data quality, reduce server load, and add an extra
-          layer of protection against common client-side attacks.
-        </p>
-        <h4>Pre Form Validation Security:</h4>
-        What the Library Does
-        <ul>
-          <li>Validates required fields, formats, and input patterns</li>
-          <li>Detects invalid, empty, or malformed data</li>
-          <li>Prevents form submission when validation fails</li>
-          <li>Helps block basic injection attempts and input tampering</li>
-          <li>Provides instant feedback to users</li>
-        </ul>
-        <p>It runs automatically when a form is submitted or when inputs change, making it easy to integrate with any website
-        or web application.</p>       
-        <h2 id="features">Features</h2>
-        <p>Pre Form Validation Security provides a powerful yet lightweight set of tools to protect and validate your web forms
-          before submission.</p>
-        <ul>
-          <li>Real-time input validation
-            Instantly checks user input as it is entered or submitted.</li>
-           <li>Pre-submission security checks
-            Blocks unsafe, empty, or malformed data before it reaches your server.</li>
-          <li>Lightweight and fast
-            Designed to run with minimal impact on page performance.</li>
-          <li>Easy to integrate
-            Works with plain HTML forms without needing frameworks.</li>
-          <li>Custom validation rules
-            Allows you to define your own rules for specific fields.</li>
-          <li>Error handling
-            Highlights invalid fields and prevents form submission.</li>
-          <li>Helps prevent common attacks
-            Adds a first layer of defense against basic injection and input tampering.</li>
-          <li>Improves user experience
-            Gives users immediate feedback, reducing frustration and errors.</li>
-        </ul>
-        <h2 id="installation">Installation</h2>
-        <p>To use Pre Form Validation Security in your project, you can include it via</p>
-        <strong>Option 1: Using a Script Tag</strong>
-        <p>Download the library and include it in your HTML file:</p>
-        <pre><code><table>
+				<h2 id="overview">Overview</h2>
+				<p>
+					Pre Form Validation Security is a lightweight JavaScript class helper designed to validate form
+					inputs before they
+					are submitted to the server. It helps stop common client-side attacks, invalid data, and tampering
+					by enforcing
+					rules directly in the browser.</p>
+				<p>
+					It enforce validation rules, and block unsafe or suspicious values in real time. By validating and
+					filtering data at
+					the earliest point—the form itself—the library helps improve data quality, reduce server load, and
+					add an extra
+					layer of protection against common client-side attacks.
+				</p>
+				<h4>Pre Form Validation Security:</h4>
+				What the Library Does
+				<ul>
+					<li>Validates required fields, formats, and input patterns</li>
+					<li>Detects invalid, empty, or malformed data</li>
+					<li>Prevents form submission when validation fails</li>
+					<li>Helps block basic injection attempts and input tampering</li>
+					<li>Provides instant feedback to users</li>
+				</ul>
+				<p>It runs automatically when a form is submitted or when inputs change, making it easy to integrate
+					with any website
+					or web application.</p>
+				<h2 id="features">Features</h2>
+				<p>Pre Form Validation Security provides a powerful yet lightweight set of tools to protect and validate
+					your web forms
+					before submission.</p>
+				<ul>
+					<li>Real-time input validation
+						Instantly checks user input as it is entered or submitted.</li>
+					<li>Pre-submission security checks
+						Blocks unsafe, empty, or malformed data before it reaches your server.</li>
+					<li>Lightweight and fast
+						Designed to run with minimal impact on page performance.</li>
+					<li>Easy to integrate
+						Works with plain HTML forms without needing frameworks.</li>
+					<li>Custom validation rules
+						Allows you to define your own rules for specific fields.</li>
+					<li>Error handling
+						Highlights invalid fields and prevents form submission.</li>
+					<li>Helps prevent common attacks
+						Adds a first layer of defense against basic injection and input tampering.</li>
+					<li>Improves user experience
+						Gives users immediate feedback, reducing frustration and errors.</li>
+				</ul>
+				<h2 id="installation">Installation</h2>
+				<p>To use Pre Form Validation Security in your project, you can include it via</p>
+				<strong>Option 1: Using a Script Tag</strong>
+				<p>Download the library and include it in your HTML file:</p>
+				<pre><code><table>
             <tbody>
               <tr>
                 <td>1</td><td>&lt;<span class="-t">script</span> src="<span class="-v">preFVS.min.js</span>"&gt;&lt;/<span class="-t">script</span>&gt;</td>
               </tr>
             </tbody>
           </table></code></pre>
-        <p>Make sure the script is placed before the closing <code>&lt;/<span class="-t">body</span>&gt;</code> tag or after your form elements.</p>
-        <strong>Option 2: Using JavaScript Module</strong>
-        <p>If you are using modern JavaScript modules, import the library:</p>
-			<pre><code><table>
+				<p>Make sure the script is placed before the closing <code>&lt;/<span class="-t">body</span>&gt;</code>
+					tag or after your form elements.</p>
+				<strong>Option 2: Using JavaScript Module</strong>
+				<p>If you are using modern JavaScript modules, import the library:</p>
+				<pre><code><table>
 			            <tbody>		
         <tr><td>1</td><td>&lt;<span class="-t">script</span> type="<span class="-v">module</span>"&gt;</td></tr>
         <tr><td>2</td><td>    import preFVS from './preFVS.min.js';</td></tr>
         <tr><td>3</td><td>&lt;/<span class="-t">script</span>&gt;</td></tr>
 			</tbody>
 			</table></code></pre>
-        <p>Once installed, you can attach the validator to any form to start protecting and validating user input.</p>
-        
-        <h2 id="quick-start">Quick Start</h2>
-        <p>Create an HTML form:</p>
-		    <pre><code><table><tbody>
+				<p>Once installed, you can attach the validator to any form to start protecting and validating user
+					input.</p>
+
+				<h2 id="quick-start">Quick Start</h2>
+				<p>Create an HTML form:</p>
+				<pre><code><table><tbody>
 		    <tr><td>1</td><td>&lt;form id="signupForm"&gt;</td></tr>
 		    <tr><td>2</td><td>    &lt;input type="email" name="email" required&gt;</td></tr>
 	      <tr><td>3</td><td>    &lt;input type="password" name="password" required min-length="8"&gt;</td></tr>
         <tr><td>4</td><td>    &lt;button type="submit"&gt;Sign Up&lt;/button&gt;</td></tr>
-        <tr><td>5</td><td>&lt;form&gt;</td></tr>
+        <tr><td>5</td><td>&lt;/form&gt;</td></tr>
         </tbody></table></code></pre>
-        <p>Include the Pre Form Validation Security library and initialize it:</p>
-        <pre><code id="code-4"></code></pre>
-      </div>
-			<!-- <div class="block">Section 2</div>
-			<div class="block">Section 3</div>
-			<div class="block">Section 4</div>
-			<div class="block">Section 5</div>
-			<div class="block">Section 6</div>
-			<div class="block">Section 7</div>
-			<div class="block">Section 8</div> -->
+				<p>Include the Pre Form Validation Security library and initialize it:</p>
+				<pre><code><table><tbody>
+				<tr><td>1</td><td>&lt;script src="preFVS.min.js"&gt;&lt;/script&gt;</td></tr>
+				<tr><td>2</td><td>&lt;script&gt;</td></tr>
+				<tr><td>3</td><td>    new preFVS("#signupForm");</td></tr>
+				<tr><td>4</td><td>&lt;/script&gt;</td></tr>
+				</tbody></table></code></pre>				
+			</div>
 		</main>
 
 	</div>
