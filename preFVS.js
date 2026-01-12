@@ -13,6 +13,28 @@ _c = callback function
 _o = object`
 _d = document
 _w = window
+<input type="button">
+<input type="checkbox">
+<input type="color">
+<input type="date">
+<input type="datetime-local">
+<input type="email">
+<input type="file">
+<input type="hidden">
+<input type="image">
+<input type="month">
+<input type="number">
+<input type="password">
+<input type="radio">
+<input type="range">
+<input type="reset">
+<input type="search">
+<input type="submit">
+<input type="tel">
+<input type="text">
+<input type="time">
+<input type="url">
+<input type="week">
 */
 class preFVS {
   constructor(_s = null, options = {}, d = document, w = window) {
@@ -95,11 +117,43 @@ class preFVS {
   _appendStyle(_s, w, d) {
       this._logMessenger('Adding preFVS styles...');
       let cssText = ` 
+                          ${_s} [type=radio],
+                          ${_s} [type=checkbox] {
+                            -webkit-appearance: none;
+                            -moz-appearance:    none;
+                            appearance:         none;
+                          }    
                           ${_s} input:not([type="button"]):not([type="submit"]):not(:user-invalid):focus,
                           ${_s} textarea:not(:user-invalid):focus,
                           ${_s} select:not(:user-invalid):focus{
                               border:solid 1px #000;       
-                            }    
+                            } 
+                          ${_s} [type=radio],
+                          ${_s} [type=checkbox] {
+                            width: 20px;
+                            height: 20px;
+                            border: solid 1px #cccccc;
+                            margin-right: 8px;
+                            position: relative;
+                          }
+                          ${_s} [type=radio]:checked::before,
+                          ${_s} [type=checkbox]:checked::before {
+                            content: "";
+                            width: 14px;
+                            height: 14px;
+                            background-color: rgb(3, 130, 5);;
+                            position: absolute;
+                            top: 2px;
+                            left: 2px;
+                          }  
+                          ${_s} [type=checkbox]:user-invalid, ${_s} [type=radio]:user-invalid{
+                            border: solid 1px red;
+                            background-color:#ff000024 !important;
+                          }
+                          ${_s} [type=radio],
+                          ${_s} [type=radio]:checked::before{
+                            border-radius: 100%;
+                          }
                           ${_s} input:not([type="radio"]):not([type="checkbox"]):user-invalid, 
                           ${_s} select:user-invalid,
                           ${_s} textarea:user-invalid{
