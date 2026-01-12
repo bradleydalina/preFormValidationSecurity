@@ -255,7 +255,7 @@
 				</div>
 				<nav>
 					<ul>
-						<li class="active"><a href="index.html"><span>Getting Started</span></a>
+						<li class="active"><a href="javascript:void(0);"><span>Getting Started</span></a>
 							<ul>
 								<li class="active"><a href="#overview"><span>Overview</span></a></li>
 								<li><a href="#features"><span>Features</span></a></li>
@@ -263,7 +263,7 @@
 								<li><a href="#quick-start"><span>Quick Start</span></a></li>
 							</ul>
 						</li>
-						<li><a href="guide.html"><span>Guide</span></a>
+						<li><a href="javascript:void(0);"><span>Guide</span></a>
 							<ul>
 								<li><a href="#core-concepts"><span>Core Concepts</span></a></li>
 								<li><a href="#configuration"><span>Configuration</span></a></li>
@@ -280,7 +280,6 @@
 						<li><a href="#changelog"><span>Changelog</span></a></li>
 					</ul>
 				</nav>
-				<img width="150px" src="https://www.bathtownshippubliclibrary.org/site-assets/images/paypal-donate-button-high-quality-png.png/@@images/image.png">
 			</div>
 		</aside>
 		<main>
@@ -376,29 +375,8 @@
 				</tbody></table></code></pre>				
 			</div>
 		</main>
+
 	</div>
-	<script>
-		const navlinks = document.querySelectorAll("aside nav ul li a");
-		
-		navlinks.forEach(link => {
-		link.addEventListener("click", e => {
-		
-		// Remove all active states first
-		document.querySelectorAll("aside nav li.active").forEach(li => {
-		li.classList.remove("active");
-		});
-		
-		// Get the clicked <a>
-			let current = e.currentTarget.closest("li");
-		
-			// Walk UP the tree and activate every parent <li>
-				while (current && current.matches("li")) {
-				current.classList.add("active");
-				current = current.parentElement.closest("li");
-				}
-				});
-				});
-	</script>
 </body>
 
 </html>
