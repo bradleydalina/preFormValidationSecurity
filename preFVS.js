@@ -36,20 +36,22 @@ _w = window
 <input type="url">
 <input type="week">
 */
-class preFVS {
-  constructor(_s = null, options = {}, d = document, w = window) {
-      this.firstInvalid=null;
-      //Detector
-      this.isManualInput = false;
-      this.keyboardEvents = 0;
-      this.mouseEvents = 0;
-      //allback
-      this.callback=null;
+class DalinaFVS {
+  //callback hook
+  #isValidHook = null;
+  #firstInvalid=null;
+  //Detector
+  #isManualInput = false;
+  #keyboardEvents = 0;
+  #mouseEvents = 0;
+  constructor(_s = null, options = {}) {
+      const d=document;
+      const w=window;      
       //Selector
       this.form = d.querySelector(_s) ?? null;
       this.button = null;
       //Options
-      this.options = {
+      this.options =  Object.freeze({
           //Security
           bait: options.bait ?? false,
           defaultKey: options.defaultKey ?? '000-00-0000',
@@ -58,8 +60,8 @@ class preFVS {
           debug: options.debug ?? true,
           //Style
           style:options.style ?? null
-        };
-      this._logMessenger('Initilizing PreFVS...');
+        });
+      this._logMessenger('Initilizing DalinaFVS...');
       this._logMessenger('Checking instance form element _s...');
         if(this.form instanceof HTMLFormElement &&
           this.form &&
@@ -115,7 +117,7 @@ class preFVS {
         }
     }
   _appendStyle(_s, w, d) {
-      this._logMessenger('Adding preFVS styles...');
+      this._logMessenger('Adding DalinaFVS styles...');
       let cssText = ` 
                           ${_s} [type=radio],
                           ${_s} [type=checkbox] {
@@ -263,20 +265,20 @@ class preFVS {
                           `;
       cssText+=this.options.style ?? '';                        
       if (
-        d.getElementById('preFVS-CSS') &&
-        d.getElementById('preFVS-CSS').classList.contains(_s)
+        d.getElementById('DalinaFVS-CSS') &&
+        d.getElementById('DalinaFVS-CSS').classList.contains(_s)
       ) {
         return this;
-        } else if (d.getElementById('preFVS-CSS')) {
-          d.getElementById('preFVS-CSS').classList.add(_s);
-          d.getElementById('preFVS-CSS').innerHTML += cssText;
+        } else if (d.getElementById('DalinaFVS-CSS')) {
+          d.getElementById('DalinaFVS-CSS').classList.add(_s);
+          d.getElementById('DalinaFVS-CSS').innerHTML += cssText;
           return this;
         } else {
-          const preFVSCSS = d.createElement('style');
-          preFVSCSS.setAttribute('type', 'text/css');
-          preFVSCSS.setAttribute('id', 'preFVS-CSS');
-          preFVSCSS.appendChild(d.createTextNode(cssText));
-          d.head.appendChild(preFVSCSS);
+          const DalinaFVSCSS = d.createElement('style');
+          DalinaFVSCSS.setAttribute('type', 'text/css');
+          DalinaFVSCSS.setAttribute('id', 'DalinaFVS-CSS');
+          DalinaFVSCSS.appendChild(d.createTextNode(cssText));
+          d.head.appendChild(DalinaFVSCSS);
           return this;
         }
     }
@@ -285,31 +287,31 @@ class preFVS {
       this._logMessenger('Setting up listeners...');
       // Track keyboard events (manual typing)
       _i.addEventListener('keydown', (e) => {
-          this.keyboardEvents++;
+          this.#keyboardEvents++;
         });
       
       _i.addEventListener('keyup', (e) => {
-          this.isManualInput = true;          
+          this.#isManualInput = true;          
           this._runValidation(_i);
         });
       
       // Track paste events
       _i.addEventListener('paste', (e) => {
-          this.isManualInput = true;          
+          this.#isManualInput = true;          
           this._runValidation(_i);
         });
       // Track focus
       _i.addEventListener('focus', (e) => {
-          this.isManualInput = true;
+          this.#isManualInput = true;
         }); 
       _i.addEventListener('change', (e) => {
           // If no keyboard events fired before input event, likely automated
-          if (this.keyboardEvents === 0) {
-              this.isManualInput = false;
+          if (this.#keyboardEvents === 0) {
+              this.#isManualInput = false;
             } 
             const value = e.target.value;
              if (e.isTrusted && value) {
-              this.isManualInput = true;
+              this.#isManualInput = true;
              }
              //console.log('Valid?', _i.checkValidity()); // Checks actual validation
              //console.log('Validity state:', _i.validity);
@@ -320,15 +322,15 @@ class preFVS {
       // Track programmatic changes
       _i.addEventListener('input', (e) => {
           // If no keyboard events fired before input event, likely automated
-          if (this.keyboardEvents === 0) {
-              this.isManualInput = false;
+          if (this.#keyboardEvents === 0) {
+              this.#isManualInput = false;
             }
             this._runValidation(_i);
         });      
     }
   _setupSubmitHandler(_d=document) {
-      this._logMessenger('preFVS form submit handler...');
-      this.firstInvalid=null;
+      this._logMessenger('DalinaFVS form submit handler...');
+      this.#firstInvalid=null;
       const unTrusted = _d.querySelector('input[name="unTrusted"]');
       this.inputs.forEach((_i) => {
           this._setupListeners(_i);     
@@ -376,17 +378,17 @@ class preFVS {
               this.form.reportValidity();
             }
             
-            if(this.callback && typeof this.callback === "function"){
+            if(this.#isValidHook && typeof this.#isValidHook === "function"){
                 e.preventDefault();
                 //console.log(this.callback);
-                this.callback(this.form);
+                this.#isValidHook?.(this.form);
                 this.button.classList.remove('loading');
             } 
             this.button.classList.remove('loading');                    
         });
     }
   _isUserTyping() {
-      return this.keyboardEvents > 0 && this.isManualInput;
+      return this.#keyboardEvents > 0 && this.#isManualInput;
     }    
   _objCheck(_o) {
       if (!_o.selector || !_o.rule) {
@@ -456,8 +458,8 @@ class preFVS {
           _i.classList.remove('valid'); 
           _i.classList.add('invalid');
         }
-      if (!this.firstInvalid && !_i.checkValidity()) {
-          this.firstInvalid=_i;
+      if (!this.#firstInvalid && !_i.checkValidity()) {
+          this.#firstInvalid=_i;
         }
     }
   addValidator(_i, _r) {
@@ -478,8 +480,11 @@ class preFVS {
       return this;
     }
   isValid(_c = null) {
-        if (typeof _c === "function") {
-            this.callback = _c;
+        if (this.#isValidHook) {
+            if(this.options.debug) throw new Error("isValid hook already registered");
+          }
+          if (typeof _c === "function") {
+            this.#isValidHook = Object.freeze(_c);
           }
           else if (_c !== null && this.options.debug===true) {
             throw new Error(`Callback is not a valid function and cannot be executed: "${typeof _c}".`);

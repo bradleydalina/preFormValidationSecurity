@@ -251,7 +251,7 @@
 							<path fill="#F7DF1E" d="M0 0h256v256H0z" />
 							<path
 								d="m67.312 213.932l19.59-11.856c3.78 6.701 7.218 12.371 15.465 12.371c7.905 0 12.89-3.092 12.89-15.12v-81.798h24.057v82.138c0 24.917-14.606 36.259-35.916 36.259c-19.245 0-30.416-9.967-36.087-21.996m85.07-2.576l19.588-11.341c5.157 8.421 11.859 14.607 23.715 14.607c9.969 0 16.325-4.984 16.325-11.858c0-8.248-6.53-11.17-17.528-15.98l-6.013-2.58c-17.357-7.387-28.87-16.667-28.87-36.257c0-18.044 13.747-31.792 35.228-31.792c15.294 0 26.292 5.328 34.196 19.247l-18.732 12.03c-4.125-7.389-8.591-10.31-15.465-10.31c-7.046 0-11.514 4.468-11.514 10.31c0 7.217 4.468 10.14 14.778 14.608l6.014 2.577c20.45 8.765 31.963 17.7 31.963 37.804c0 21.654-17.012 33.51-39.867 33.51c-22.339 0-36.774-10.654-43.819-24.574" />
-						</svg> PreFVS</h2>
+						</svg> DalinaWebFVS</h2>
 				</div>
 				<nav>
 					<ul>
@@ -287,7 +287,7 @@
 			<div class="block">
 				<h2 id="overview">Overview</h2>
 				<p>
-					Pre Form Validation Security is a lightweight JavaScript class helper designed to validate form
+					Dalina Form Validation Security is a lightweight JavaScript class helper designed to validate form
 					inputs before they
 					are submitted to the server. It helps stop common client-side attacks, invalid data, and tampering
 					by enforcing
@@ -299,7 +299,7 @@
 					add an extra
 					layer of protection against common client-side attacks.
 				</p>
-				<h4>Pre Form Validation Security:</h4>
+				<h4>Dalina Form Validation Security:</h4>
 				What the Library Does
 				<ul>
 					<li>Validates required fields, formats, and input patterns</li>
@@ -312,7 +312,7 @@
 					with any website
 					or web application.</p>
 				<h2 id="features">Features</h2>
-				<p>Pre Form Validation Security provides a powerful yet lightweight set of tools to protect and validate
+				<p>Dalina Form Validation Security provides a powerful yet lightweight set of tools to protect and validate
 					your web forms
 					before submission.</p>
 				<ul>
@@ -334,13 +334,13 @@
 						Gives users immediate feedback, reducing frustration and errors.</li>
 				</ul>
 				<h2 id="installation">Installation</h2>
-				<p>To use Pre Form Validation Security in your project, you can include it via</p>
+				<p>To use Dalina Form Validation Security in your project, you can include it via</p>
 				<strong>Option 1: Using a Script Tag</strong>
 				<p>Download the library and include it in your HTML file:</p>
 				<pre><code><table>
             <tbody>
               <tr>
-                <td>1</td><td>&lt;<span class="-t">script</span> src="<span class="-v">preFVS.min.js</span>"&gt;&lt;/<span class="-t">script</span>&gt;</td>
+                <td>1</td><td>&lt;<span class="-t">script</span> src="<span class="-v">DalinaFVS.min.js</span>"&gt;&lt;/<span class="-t">script</span>&gt;</td>
               </tr>
             </tbody>
           </table></code></pre>
@@ -351,7 +351,7 @@
 				<pre><code><table>
 			            <tbody>		
         <tr><td>1</td><td>&lt;<span class="-t">script</span> type="<span class="-v">module</span>"&gt;</td></tr>
-        <tr><td>2</td><td>    import preFVS from './preFVS.min.js';</td></tr>
+        <tr><td>2</td><td>    import DalinaFVS from './DalinaFVS.min.js';</td></tr>
         <tr><td>3</td><td>&lt;/<span class="-t">script</span>&gt;</td></tr>
 			</tbody>
 			</table></code></pre>
@@ -367,36 +367,33 @@
         <tr><td>4</td><td>    &lt;button type="submit"&gt;Sign Up&lt;/button&gt;</td></tr>
         <tr><td>5</td><td>&lt;/form&gt;</td></tr>
         </tbody></table></code></pre>
-				<p>Include the Pre Form Validation Security library and initialize it:</p>
+				<p>Include the Dalina Form Validation Security library and initialize it:</p>
 				<pre><code><table><tbody>
-				<tr><td>1</td><td>&lt;script src="preFVS.min.js"&gt;&lt;/script&gt;</td></tr>
+				<tr><td>1</td><td>&lt;script src="DalinaFVS.min.js"&gt;&lt;/script&gt;</td></tr>
 				<tr><td>2</td><td>&lt;script&gt;</td></tr>
-				<tr><td>3</td><td>    new preFVS("#signupForm");</td></tr>
+				<tr><td>3</td><td>    new DalinaFVS("#signupForm");</td></tr>
 				<tr><td>4</td><td>&lt;/script&gt;</td></tr>
 				</tbody></table></code></pre>				
 			</div>
 		</main>
 	</div>
 	<script>
-		const navlinks = document.querySelectorAll("aside nav ul li a");
-		
+		const navlinks = document.querySelectorAll("aside nav ul li a");		
 		navlinks.forEach(link => {
-		link.addEventListener("click", e => {
-		
-		// Remove all active states first
-		document.querySelectorAll("aside nav li.active").forEach(li => {
-		li.classList.remove("active");
-		});
-		
-		// Get the clicked <a>
-			let current = e.currentTarget.closest("li");
-		
-			// Walk UP the tree and activate every parent <li>
-				while (current && current.matches("li")) {
-				current.classList.add("active");
-				current = current.parentElement.closest("li");
-				}
-				});
+				link.addEventListener("click", e => {			
+							// Remove all active states first
+							document.querySelectorAll("aside nav li.active").forEach(li => {
+									li.classList.remove("active");
+								});
+						
+							// Get the clicked <a>
+							let current = e.currentTarget.closest("li");				
+							// Walk UP the tree and activate every parent <li>
+							while (current && current.matches("li")) {
+									current.classList.add("active");
+									current = current.parentElement.closest("li");
+								}
+						});
 				});
 	</script>
 </body>
