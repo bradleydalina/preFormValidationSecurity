@@ -7,11 +7,16 @@
 	<title>Javascript - Pre Form Validation Security</title>
 
 	<style>
-    html, body{scroll-behavior:smooth;}
+		html,
+		body {
+			scroll-behavior: smooth;
+		}
+
 		body {
 			margin: 0;
-			font-size: 15px;
-			font-family: Arial, sans-serif;
+      font: 14px arial;
+      letter-spacing:.25px;
+      font-weight: 100;
 		}
 
 		/* Page wrapper */
@@ -118,22 +123,26 @@
 			padding: 0 40px;
 			background-color: #fff;
 			/*#f3f4f6;*/
-		}
+		}    
 
-		.block {
+		.-block {
 			background: transparent;
-			padding:20px;
-			margin-bottom:15px;
+			padding: 20px;
+			margin-bottom: 15px;
 			/*margin-bottom: 20px;*/
 			/*border-radius: 6px;
 			box-shadow: 0 0 5px rgba(0, 0, 0, .1);*/
+      display:none;
 		}
-	  main h2{
-      padding-top:50px;
-			margin-top:0;
-    }
-		main h2:not(:first-child){
-				margin-top:20px;
+	  .-block.-active{display:block;}
+
+		main h2 {
+			padding-top: 50px;
+			margin-top: 0;
+		}
+
+		main h2:not(:first-child) {
+			margin-top: 20px;
 		}
 
 		main p {
@@ -172,7 +181,7 @@
 		pre>code>table>tbody>tr td:first-child {
 			background-color: #ffc107;
 			text-align: right;
-      width:30px;
+			width: 30px;
 		}
 
 		pre>code>table>tbody>tr td:last-child {
@@ -237,7 +246,12 @@
 		.token-constant {
 			color: #fb7185;
 		}
-	</style>
+
+    a.-button{background-color:#ddd; color:#000; display:inline-block; float:right; padding:15px; text-decoration:none; text-align:right;}
+    .-clear{clear:both;}
+		.-table{border-collapse:collapse; margin:30px 0;}
+		.-table th, .-table td{border:solid 1px #ddd; text-align:left; padding:10px;}
+  </style>
 </head>
 
 <body>
@@ -255,21 +269,21 @@
 				</div>
 				<nav>
 					<ul>
-						<li class="active"><a href="index.html"><span>Getting Started</span></a>
+						<li class="active"><a href="#overview" class="-navlink" data-target="_getting-started"><span>Getting Started</span></a>
 							<ul>
-								<li class="active"><a href="#overview"><span>Overview</span></a></li>
-								<li><a href="#features"><span>Features</span></a></li>
-								<li><a href="#installation"><span>Installation</span></a></li>
-								<li><a href="#quick-start"><span>Quick Start</span></a></li>
+								<li class="active"><a href="#overview" class="-navlink" data-target="_getting-started"><span>Overview</span></a></li>
+								<li><a href="#features" class="-navlink" data-target="_getting-started"><span>Features</span></a></li>
+								<li><a href="#installation" class="-navlink" data-target="_getting-started"><span>Installation</span></a></li>
+								<li><a href="#quick-start" class="-navlink" data-target="_getting-started"><span>Quick Start</span></a></li>
 							</ul>
 						</li>
-						<li><a href="guide.html"><span>Guide</span></a>
+						<li><a href="#core-concepts" class="-navlink" data-target="_guide"><span>Guide</span></a>
 							<ul>
-								<li><a href="#core-concepts"><span>Core Concepts</span></a></li>
-								<li><a href="#configuration"><span>Configuration</span></a></li>
-								<li><a href="#events-hooks"><span>Events & Hooks</span></a></li>
-								<li><a href="#validation-flows"><span>Validation Flow</span></a></li>
-								<li><a href="#error-handling"><span>Error Handling</span></a></li>
+								<li><a href="#core-concepts" class="-navlink" data-target="_guide"><span>Core Concepts</span></a></li>
+								<li><a href="#configuration" class="-navlink" data-target="_guide"><span>Configuration</span></a></li>
+								<li><a href="#events-hooks" class="-navlink" data-target="_guide"><span>Events & Hooks</span></a></li>
+								<li><a href="#validation-flows" class="-navlink" data-target="_guide"><span>Validation Flow</span></a></li>
+								<li><a href="#error-handling" class="-navlink" data-target="_guide"><span>Error Handling</span></a></li>
 							</ul>
 						</li>
 						<li><a href="#api-reference"><span>API Reference</span></a></li>
@@ -280,11 +294,11 @@
 						<li><a href="#changelog"><span>Changelog</span></a></li>
 					</ul>
 				</nav>
-				<img width="150px" src="https://www.bathtownshippubliclibrary.org/site-assets/images/paypal-donate-button-high-quality-png.png/@@images/image.png">
+				<!-- <img width="150px" src="https://www.bathtownshippubliclibrary.org/site-assets/images/paypal-donate-button-high-quality-png.png/@@images/image.png"> -->
 			</div>
 		</aside>
 		<main>
-			<div class="block">
+			<div id="_getting-started" class="-block -active">
 				<h2 id="overview">Overview</h2>
 				<p>
 					Dalina Form Validation Security is a lightweight JavaScript class helper designed to validate form
@@ -312,7 +326,8 @@
 					with any website
 					or web application.</p>
 				<h2 id="features">Features</h2>
-				<p>Dalina Form Validation Security provides a powerful yet lightweight set of tools to protect and validate
+				<p>Dalina Form Validation Security provides a powerful yet lightweight set of tools to protect and
+					validate
 					your web forms
 					before submission.</p>
 				<ul>
@@ -373,8 +388,110 @@
 				<tr><td>2</td><td>&lt;script&gt;</td></tr>
 				<tr><td>3</td><td>    new DalinaFVS("#signupForm");</td></tr>
 				<tr><td>4</td><td>&lt;/script&gt;</td></tr>
-				</tbody></table></code></pre>				
+				</tbody></table></code></pre>
+        <br/>
+        <!-- <p><a href="guide.html" class="-button">Guide</a></p>
+        
+        <hr class="-clear"/>
+        <footer>Copyright &copy; DalinaWebFVS 2026</footer> -->
 			</div>
+      <div id="_guide" class="-block">
+        <h2 id="core-concepts">Core Concepts</h2>
+        <p><strong>Dalina Form Validation Security</strong> is built around one simple idea:
+          validate and secure form data before it ever reaches your server.</p>
+        <p>Instead of waiting for backend errors, the library checks inputs directly in the browser, stopping bad or unsafe data at
+          the source.</p>
+        <p>
+          <ol>
+            <li><h4>Form as the Security Gate</h4>        
+            <p>Every form becomes a security checkpoint.</p>        
+            <p>When a user submits a form:</p>
+            <ul>        
+              <li>All input fields are inspected</li>        
+              <li>Values are checked against validation rules</li>
+              <li>Unsafe or invalid data is blocked</li>
+              <li>Submission is allowed only if everything passes</li>
+            </ul>      
+            <p>This prevents bad data from being sent in the first place.</p></li>
+            <li><h4>Automatic Field Detection</h4>			
+			          <p>The library automatically scans:</p>			
+                  <ul><li>&lt;input&gt;</li>
+                  <li>&lt;textarea&gt;</li>
+                  <li>&lt;select&gt;</li>		
+                  </ul>			
+					    <p>It reads attributes like:</p>	
+                <ul>				
+                  <li>required</li>
+                  <li>type</li>
+                  <li>min, max</li>
+                  <li>pattern</li>
+                </ul>				
+                <p>This allows it to validate most fields without extra configuration.</p></li>
+                <li><h4>Rules-Based Validation</h4>				
+				        <p>Each field is validated using simple rules such as:</p>				
+                  <ul><li>Required</li>
+                <li>Email format</li>
+                <li>Number limits</li>
+                <li>Custom patterns</li></ul>				
+				      <p>You can also define your own rules for special fields.</p></li>
+              <li><h4>Real-Time Protection</h4>
+			          <p>Validation happens:</p>
+                <ul><li>
+                When the user types</li>			
+                <li>When a field loses focus</li>			
+                <li>When the form is submitted</li></ul>
+                
+                <p>This gives users instant feedback and prevents accidental mistakes.</p></li>
+                <li><h4>First Layer of Security</h4>				
+				          <p>Pre Form Validation Security acts as a front-line defense:</p>
+                  <ul><li>Stops empty or malformed input</li>				
+                      <li>Reduces injection attempts				
+                      <li>Prevents obvious tampering</li></ul>				
+				          <p>It does not replace server-side validation—but it greatly reduces bad data before it reaches your backend.</p></li>
+            </ol>
+			      <h2 id="configuration">Configuration</h2>
+            <p>Dalina Form Validation Security can be customized by passing a configuration object when you initialize the class. This allows
+			you to control how validation and security checks behave for each form.</p>
+	        <pre><code><table><tbody>
+					<tr><td>1</td><td>new DalinaFVS('#loginForm', {</td></tr>
+					<tr><td>2</td><td>	bait:false,</td></tr>
+					<tr><td>3</td><td>	defaultKey:000-00-0000</td></tr>
+					<tr><td>4</td><td>	log:true,</td></tr>
+					<tr><td>5</td><td>	debug:true</td></tr>
+					<tr><td>6</td><td>	style:`input:user-invalid{border:solid 1px #ff0000;}`</td></tr>
+					<tr><td>7</td><td>})</td></tr>
+					</tbody></table></code></pre>
+					<table class="-table">
+						<tbody>
+							<tr><th>Option</th><th>Type</th><th>Description</th></tr>
+							<tr>
+								<td>bait</td>
+								<td>Boolean</td>
+								<td>This is adds two hidden inputs fields, one that is not required input and must not have a value when submitted, the other one must have a default value and must not be modified, once modified it will indicate as bot activity.</td>
+							</tr>
+							<tr>
+								<td>defaultKey</td>
+								<td>String/Number</td>
+								<td>A default value that helps detect a boot requests.</td>
+							</tr>
+							<tr>
+								<td>log</td>
+								<td>Boolean</td>
+								<td>Once set to true, it will use the console to log every validation within the form using this helper.</td>
+							</tr>
+							<tr>
+								<td>debug</td>
+								<td>Boolean</td>
+								<td>Once set to true, it will use the console to log every error catch during runtime.</td>
+							</tr>
+							<tr>
+								<td>style</td>
+								<td>string</td>
+								<td>It allows you to add custom css styles for handling validtion indicator.</td>
+							</tr>
+							</tbody>
+							</table>
+      </div>
 		</main>
 	</div>
 	<script>
@@ -385,9 +502,15 @@
 							document.querySelectorAll("aside nav li.active").forEach(li => {
 									li.classList.remove("active");
 								});
+
+              document.querySelectorAll("div.-block").forEach(div => {
+                  div.classList.remove("-active");
+                });
 						
 							// Get the clicked <a>
-							let current = e.currentTarget.closest("li");				
+							let current = e.currentTarget.closest("li");	
+			        let activeBlock = e.currentTarget.getAttribute('data-target');
+              document.getElementById(activeBlock).classList.add('-active');
 							// Walk UP the tree and activate every parent <li>
 							while (current && current.matches("li")) {
 									current.classList.add("active");
