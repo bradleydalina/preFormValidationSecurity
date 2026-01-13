@@ -37,6 +37,7 @@ _w = window
 <input type="week">
 */
 class DalinaFVS {
+  #validators = [];
   //callback hook
   #isValidHook = null;
   #firstInvalid=null;
@@ -98,7 +99,7 @@ class DalinaFVS {
               this.inputs.push(field);
             }
           this.inputs = Array.from(this.inputs);
-          this.validators = new Map();
+          this.#validators = new Map();
           this.button = this.form.querySelector('[type="submit"]');          
           this._setupSubmitHandler();
           this._appendStyle(_s, w, d);          
@@ -398,6 +399,7 @@ class DalinaFVS {
               );
            return;
         }
+      Object.freeze(_o);   
       this._prepareValidator(_o.selector, _o.rule);
     }
   _prepareValidator(_s, _r, _d=document) {
@@ -421,28 +423,23 @@ class DalinaFVS {
       this._setValidator(_i, _r);      
     }
   _setValidator(_i, _r) {    
-        if (!this.validators.has(_i)) {
-            this.validators.set(_i, []);
+        if (!this.#validators.has(_i)) {
+            this.#validators.set(_i, []);
           }
         if (Array.isArray(_r)) {
             _r.forEach((r) => {
-              this.validators.get(_i).push(r);
+              this.#validators.get(_i).push(r);
             });
             } else {
-              this.validators.get(_i).push(_r);
+              this.#validators.get(_i).push(_r);
             }    
       }
   _isPlainObject(_o) {
-      return (
-          _o &&
-          typeof _o === 'object' &&
-          !Array.isArray(_o) &&
-          _o.constructor === Object
-        );
-    }  
+      return Object.prototype.toString.call(_o) === '[object Object]';
+    }
   _runValidation(_i) {
       this._logMessenger(`Validating user input ${_i.name}...`);
-      const validators = this.validators.get(_i) || [];
+      const validators = this.#validators.get(_i) || [];
       let _m = [];
       for (const _v of validators) {
           const msg = _v(_i.value, _i);
