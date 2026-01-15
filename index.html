@@ -14,9 +14,9 @@
 
 		body {
 			margin: 0;
-      font: 14px arial;
-      letter-spacing:.25px;
-      font-weight: 100;
+			font: 14px arial;
+			letter-spacing: .25px;
+			font-weight: 100;
 		}
 
 		/* Page wrapper */
@@ -123,7 +123,7 @@
 			padding: 0 40px;
 			background-color: #fff;
 			/*#f3f4f6;*/
-		}    
+		}
 
 		.-block {
 			background: transparent;
@@ -132,10 +132,106 @@
 			/*margin-bottom: 20px;*/
 			/*border-radius: 6px;
 			box-shadow: 0 0 5px rgba(0, 0, 0, .1);*/
-      display:none;
+			display: none;
 		}
-	  .-block.-active{display:block;}
 
+		.-block.-active {
+			display: block;
+		}
+		ul.-tree{
+			list-style:none;
+			display:flex;
+			flex-direction:column;
+			margin:0;
+			padding:0;
+		}
+		ul.-tree li{position:relative; padding:10px; border:solid 1px #ddd; margin:15px 0; text-align:center;}
+		ul.-tree li h4{margin:2px auto;}
+		ul.-tree li:not(.-branch){background-color:#fff6ac;}
+		ul.-tree li.-branch{border:0; margin:0; padding:0;}
+		ul.-tree li.-branch ul{flex-wrap: nowrap; flex-flow: row nowrap; list-style:none; padding:0; margin:0; display:flex; align-items:strecth; align-content: stretch; flex-basis:1 1; justify-content: space-between; gap:15px;}
+		ul.-tree li.-branch ul li{flex: 1;}
+		ul.-tree li.-branch ul li.-success{background-color:#35fb9d;border: solid 1px #2ed988 !important;}
+		ul.-tree li.-branch ul li.-error{background-color:#ff90a6;border: solid 1px #f56481 !important;}
+		
+
+		/* vertical line */
+		ul.-tree > li:not(.-branch):not(:first-of-type)::before {
+			content: "";
+			position: absolute;
+			left: 0;
+			right:0;
+			margin:auto;
+			top: -30px;
+			width: 1.5px;
+			height: 20px;
+			background: #000;
+		}
+		
+		/* arrow head */
+		ul.-tree li:not(.-branch):not(:first-of-type)::after {
+			content: "";
+			position: absolute;
+			left: 0px;
+			right:0px;
+			margin:auto;
+			top: -10px;
+			width: 0;
+			height: 1;
+			border-left: 5px solid transparent;
+			border-right: 5px solid transparent;
+			border-top: 7px solid #000;
+		}
+
+		ul.-tree > li.-branch ul li::before {
+			content: "";
+			position: absolute;
+			left: 0;
+			right:0;
+			margin:auto;
+			top: -30px;
+			width: 1.5px;
+			height: 20px;
+			background: #000;
+		}
+
+		ul.-tree li.-branch ul li::after {
+		content: "";
+		position: absolute;
+		left: 0px;
+		right:0px;
+		margin:auto;
+		top: -10px;
+		width: 0;
+		height: 1;
+		border-left: 5px solid transparent;
+		border-right: 5px solid transparent;
+		border-top: 7px solid #000;
+		}
+
+		ul.-map{ list-style:none;}
+		ul.-map li a, ul.-map li a:active, ul.-map li a:visited, ul.-map li a:focus,
+		ul.-map li li a, ul.-map li li a:active, ul.-map li li a:visited, ul.-map li li a:focus{text-decoration:none; color:inherit;}
+		ul.-map li{position:relative; padding:2px 10px;}
+		ul.-map li:not(:last-child)::after{content:""; position:absolute; left:-40px; height:100%; width:1px; background-color:#ffc107; top:0px; }
+		ul.-map li:last-child::after{content:""; position:absolute; left:-40px; height:12.5px; width:1px;
+		background-color:#ffc107; top:0px; }
+		ul.-map li::before{content:""; position:absolute; height:1px ; left:-40px; width:35px; border-top:dotted 1px #ffc107; top:12.5px; }
+		ul.-map li ul{list-style:none;
+			overflow: hidden;
+			height: 0;
+			opacity: 0;
+			transform: translateY(-6px);
+			transition:
+			height 0.35s ease,
+			opacity 0.25s ease,
+			transform 0.25s ease;
+		}
+		ul.-map li ul.open {
+			height:fit-content;
+			opacity: 1;
+			transform: translateY(0); 
+		}
 		main h2 {
 			padding-top: 50px;
 			margin-top: 0;
@@ -247,11 +343,34 @@
 			color: #fb7185;
 		}
 
-    a.-button{background-color:#ddd; color:#000; display:inline-block; float:right; padding:15px; text-decoration:none; text-align:right;}
-    .-clear{clear:both;}
-		.-table{border-collapse:collapse; margin:30px 0;}
-		.-table th, .-table td{border:solid 1px #ddd; text-align:left; padding:10px;}
-  </style>
+		a.-button {
+			background-color: #ddd;
+			color: #000;
+			display: inline-block;
+			float: right;
+			padding: 15px;
+			text-decoration: none;
+			text-align: right;
+		}
+
+		.-clear {
+			clear: both;
+		}
+
+		.-table {
+			border-collapse: collapse;
+			margin: 30px 0;
+		}
+
+		.-table th,
+		.-table td {
+			border: solid 1px #ddd;
+			text-align: left;
+			padding: 10px;
+		}
+
+		
+	</style>
 </head>
 
 <body>
@@ -269,26 +388,36 @@
 				</div>
 				<nav>
 					<ul>
-						<li class="active"><a href="#overview" class="-navlink" data-target="_getting-started"><span>Getting Started</span></a>
+						<li><a href="#overview" class="-navlink"
+								data-target="_getting-started"><span>Getting Started</span></a>
 							<ul>
-								<li class="active"><a href="#overview" class="-navlink" data-target="_getting-started"><span>Overview</span></a></li>
-								<li><a href="#features" class="-navlink" data-target="_getting-started"><span>Features</span></a></li>
-								<li><a href="#installation" class="-navlink" data-target="_getting-started"><span>Installation</span></a></li>
-								<li><a href="#quick-start" class="-navlink" data-target="_getting-started"><span>Quick Start</span></a></li>
+								<li class="active"><a href="#overview" class="-navlink"
+										data-target="_getting-started"><span>Overview</span></a></li>
+								<li><a href="#features" class="-navlink"
+										data-target="_getting-started"><span>Features</span></a></li>
+								<li><a href="#installation" class="-navlink"
+										data-target="_getting-started"><span>Installation</span></a></li>
+								<li><a href="#quick-start" class="-navlink"
+										data-target="_getting-started"><span>Quick Start</span></a></li>
 							</ul>
 						</li>
 						<li><a href="#core-concepts" class="-navlink" data-target="_guide"><span>Guide</span></a>
 							<ul>
-								<li><a href="#core-concepts" class="-navlink" data-target="_guide"><span>Core Concepts</span></a></li>
-								<li><a href="#configuration" class="-navlink" data-target="_guide"><span>Configuration</span></a></li>
-								<li><a href="#events-hooks" class="-navlink" data-target="_guide"><span>Events & Hooks</span></a></li>
-								<li><a href="#validation-flows" class="-navlink" data-target="_guide"><span>Validation Flow</span></a></li>
-								<li><a href="#error-handling" class="-navlink" data-target="_guide"><span>Error Handling</span></a></li>
+								<li><a href="#core-concepts" class="-navlink"
+										data-target="_guide"><span>Core Concepts</span></a></li>
+								<li><a href="#configuration" class="-navlink"
+										data-target="_guide"><span>Configuration</span></a></li>
+								<li><a href="#events-hooks" class="-navlink"
+										data-target="_guide"><span>Events & Hooks</span></a></li>
+								<li><a href="#validation-flows" class="-navlink"
+										data-target="_guide"><span>Validation Flow</span></a></li>
+								<li><a href="#error-handling" class="-navlink"
+										data-target="_guide"><span>Error Handling</span></a></li>
 							</ul>
 						</li>
-						<li><a href="#api-reference"><span>API Reference</span></a></li>
-						<li><a href="#examples"><span>Examples</span></a></li>
-						<li><a href="#advance-usage"><span>Advanced Usage</span></a></li>
+						<li><a href="#api-reference" class="-navlink" data-target="_api-reference"><span>API Reference</span></a></li>
+						<li class="active"><a href="#examples" class="-navlink" data-target="_examples"><span>Examples</span></a></li>
+						<li><a href="#advance-usage"><span>Advanced Usage</span></a></li> 
 						<li><a href="#security"><span>Security</span></a></li>
 						<li><a href="#faq"><span>FAQ</span></a></li>
 						<li><a href="#changelog"><span>Changelog</span></a></li>
@@ -298,7 +427,7 @@
 			</div>
 		</aside>
 		<main>
-			<div id="_getting-started" class="-block -active">
+			<div id="_getting-started" class="-block">
 				<h2 id="overview">Overview</h2>
 				<p>
 					Dalina Form Validation Security is a lightweight JavaScript class helper designed to validate form
@@ -389,70 +518,90 @@
 				<tr><td>3</td><td>    new DalinaFVS("#signupForm");</td></tr>
 				<tr><td>4</td><td>&lt;/script&gt;</td></tr>
 				</tbody></table></code></pre>
-        <br/>
-        <!-- <p><a href="guide.html" class="-button">Guide</a></p>
+				<br/>
+				<!-- <p><a href="guide.html" class="-button">Guide</a></p>
         
         <hr class="-clear"/>
         <footer>Copyright &copy; DalinaWebFVS 2026</footer> -->
 			</div>
-      <div id="_guide" class="-block">
-        <h2 id="core-concepts">Core Concepts</h2>
-        <p><strong>Dalina Form Validation Security</strong> is built around one simple idea:
-          validate and secure form data before it ever reaches your server.</p>
-        <p>Instead of waiting for backend errors, the library checks inputs directly in the browser, stopping bad or unsafe data at
-          the source.</p>
-        <p>
-          <ol>
-            <li><h4>Form as the Security Gate</h4>        
-            <p>Every form becomes a security checkpoint.</p>        
-            <p>When a user submits a form:</p>
-            <ul>        
-              <li>All input fields are inspected</li>        
-              <li>Values are checked against validation rules</li>
-              <li>Unsafe or invalid data is blocked</li>
-              <li>Submission is allowed only if everything passes</li>
-            </ul>      
-            <p>This prevents bad data from being sent in the first place.</p></li>
-            <li><h4>Automatic Field Detection</h4>			
-			          <p>The library automatically scans:</p>			
-                  <ul><li>&lt;input&gt;</li>
-                  <li>&lt;textarea&gt;</li>
-                  <li>&lt;select&gt;</li>		
-                  </ul>			
-					    <p>It reads attributes like:</p>	
-                <ul>				
-                  <li>required</li>
-                  <li>type</li>
-                  <li>min, max</li>
-                  <li>pattern</li>
-                </ul>				
-                <p>This allows it to validate most fields without extra configuration.</p></li>
-                <li><h4>Rules-Based Validation</h4>				
-				        <p>Each field is validated using simple rules such as:</p>				
-                  <ul><li>Required</li>
-                <li>Email format</li>
-                <li>Number limits</li>
-                <li>Custom patterns</li></ul>				
-				      <p>You can also define your own rules for special fields.</p></li>
-              <li><h4>Real-Time Protection</h4>
-			          <p>Validation happens:</p>
-                <ul><li>
-                When the user types</li>			
-                <li>When a field loses focus</li>			
-                <li>When the form is submitted</li></ul>
-                
-                <p>This gives users instant feedback and prevents accidental mistakes.</p></li>
-                <li><h4>First Layer of Security</h4>				
-				          <p>Pre Form Validation Security acts as a front-line defense:</p>
-                  <ul><li>Stops empty or malformed input</li>				
-                      <li>Reduces injection attempts				
-                      <li>Prevents obvious tampering</li></ul>				
-				          <p>It does not replace server-side validation—but it greatly reduces bad data before it reaches your backend.</p></li>
-            </ol>
-			      <h2 id="configuration">Configuration</h2>
-            <p>Dalina Form Validation Security can be customized by passing a configuration object when you initialize the class. This allows
-			you to control how validation and security checks behave for each form.</p>
-	        <pre><code><table><tbody>
+			<div id="_guide" class="-block">
+				<h2 id="core-concepts">Core Concepts</h2>
+				<p><strong>Dalina Form Validation Security</strong> is built around one simple idea:
+					validate and secure form data before it ever reaches your server.</p>
+				<p>Instead of waiting for backend errors, the library checks inputs directly in the browser, stopping
+					bad or unsafe data at
+					the source.</p>
+				<p>
+					<ol>
+						<li>
+							<h4>Form as the Security Gate</h4>
+							<p>Every form becomes a security checkpoint.</p>
+							<p>When a user submits a form:</p>
+							<ul>
+								<li>All input fields are inspected</li>
+								<li>Values are checked against validation rules</li>
+								<li>Unsafe or invalid data is blocked</li>
+								<li>Submission is allowed only if everything passes</li>
+							</ul>
+							<p>This prevents bad data from being sent in the first place.</p>
+						</li>
+						<li>
+							<h4>Automatic Field Detection</h4>
+							<p>The library automatically scans:</p>
+							<ul>
+								<li>&lt;input&gt;</li>
+								<li>&lt;textarea&gt;</li>
+								<li>&lt;select&gt;</li>
+							</ul>
+							<p>It reads attributes like:</p>
+							<ul>
+								<li>required</li>
+								<li>type</li>
+								<li>min, max</li>
+								<li>pattern</li>
+							</ul>
+							<p>This allows it to validate most fields without extra configuration.</p>
+						</li>
+						<li>
+							<h4>Rules-Based Validation</h4>
+							<p>Each field is validated using simple rules such as:</p>
+							<ul>
+								<li>Required</li>
+								<li>Email format</li>
+								<li>Number limits</li>
+								<li>Custom patterns</li>
+							</ul>
+							<p>You can also define your own rules for special fields.</p>
+						</li>
+						<li>
+							<h4>Real-Time Protection</h4>
+							<p>Validation happens:</p>
+							<ul>
+								<li>
+									When the user types</li>
+								<li>When a field loses focus</li>
+								<li>When the form is submitted</li>
+							</ul>
+
+							<p>This gives users instant feedback and prevents accidental mistakes.</p>
+						</li>
+						<li>
+							<h4>First Layer of Security</h4>
+							<p>Pre Form Validation Security acts as a front-line defense:</p>
+							<ul>
+								<li>Stops empty or malformed input</li>
+								<li>Reduces injection attempts
+								<li>Prevents obvious tampering</li>
+							</ul>
+							<p>It does not replace server-side validation—but it greatly reduces bad data before it
+								reaches your backend.</p>
+						</li>
+					</ol>
+					<h2 id="configuration">Configuration</h2>
+					<p>Dalina Form Validation Security can be customized by passing a configuration object when you
+						initialize the class. This allows
+						you to control how validation and security checks behave for each form.</p>
+					<pre><code><table><tbody>
 					<tr><td>1</td><td>new DalinaFVS('#loginForm', {</td></tr>
 					<tr><td>2</td><td>	bait:false,</td></tr>
 					<tr><td>3</td><td>	defaultKey:000-00-0000</td></tr>
@@ -463,11 +612,17 @@
 					</tbody></table></code></pre>
 					<table class="-table">
 						<tbody>
-							<tr><th>Option</th><th>Type</th><th>Description</th></tr>
+							<tr>
+								<th>Option</th>
+								<th>Type</th>
+								<th>Description</th>
+							</tr>
 							<tr>
 								<td>bait</td>
 								<td>Boolean</td>
-								<td>This is adds two hidden inputs fields, one that is not required input and must not have a value when submitted, the other one must have a default value and must not be modified, once modified it will indicate as bot activity.</td>
+								<td>This is adds two hidden inputs fields, one that is not required input and must not
+									have a value when submitted, the other one must have a default value and must not be
+									modified, once modified it will indicate as bot activity.</td>
 							</tr>
 							<tr>
 								<td>defaultKey</td>
@@ -477,25 +632,256 @@
 							<tr>
 								<td>log</td>
 								<td>Boolean</td>
-								<td>Once set to true, it will use the console to log every validation within the form using this helper.</td>
+								<td>Once set to true, it will use the console to log every validation within the form
+									using this helper.</td>
 							</tr>
 							<tr>
 								<td>debug</td>
 								<td>Boolean</td>
-								<td>Once set to true, it will use the console to log every error catch during runtime.</td>
+								<td>Once set to true, it will use the console to log every error catch during runtime.
+								</td>
 							</tr>
 							<tr>
 								<td>style</td>
 								<td>string</td>
 								<td>It allows you to add custom css styles for handling validtion indicator.</td>
 							</tr>
-							</tbody>
-							</table>
-      </div>
+						</tbody>
+					</table>
+          <h2 id="events-hooks">Events & Hooks</h2>
+          <p>Dalina Form Validation Security provides hooks (callbacks) that let you run your own code when important things happen — such
+            as validation, errors, or successful form submission.</p>
+            <p>These hooks allow you to connect your UI, logging, or custom security logic to the library.</p>
+            <h4>How Hooks Work</h4>
+            
+            <p>You can call the hooks by chaining it:</p>
+			      <pre><code><table><tbody>
+								<tr><td>1</td><td>new DalinaFVS('#loginForm')</td></tr>
+                <tr><td>2</td><td>  .addValidator( function(){ ... } )</td></tr>
+								<tr><td>3</td><td>  .onValidate( function(){ ... } )</td></tr>
+								<tr><td>4</td><td>  .onSuccess( function(){ ... } )</td></tr>
+								<tr><td>5</td><td>  .onError( function(){ ... } )</td></tr>
+                <tr><td>6</td><td>})</td></tr>
+								</tbody></table></code></pre>
+            <p>Each hook runs automatically at the correct moment.</p>
+            <h4>Available Hooks</h4>
+            <table class="-table">
+              <tbody>
+                <tr>
+                  <th>Callback/Hook</th>
+                  <th>Description</th>
+                </tr>
+                <tr>
+                  <td>init</td>
+                  <td>Automatically fires when you invoke the main function</td>
+                </tr>
+                <tr>
+                  <td>addValidator</td>
+                  <td>Where you can add a custom and complex input validation</td>
+                </tr>
+                <tr>
+                  <td>onValidate</td>
+                  <td>Fires when you click submit button, where all inputs are validated</td>
+                </tr>
+                <tr>
+                  <td>onSuccess</td>
+                  <td>Fires after a successful validation</td>
+                </tr>
+                <tr>
+                  <td>onError</td>
+                  <td>Fires after failed validation</td>
+                </tr>
+                <tr>
+                  <td>destroy</td>
+                  <td>Free memory the library</td>
+                </tr>
+                <tr>
+                  <td>reset</td>
+                  <td>Resets the form and its validation indicators</td>
+                </tr>
+                <tr>
+                  <td>clear</td>
+                  <td>Clear the validation indicators only</td>
+                </tr>
+                <tr>
+                  <td>refresh</td>
+                  <td>Resets the library and reinitialize (.destroy().init())</td>
+                </tr>
+                <tr>
+                  <td>getData</td>
+                  <td>Return form input values in object form {}</td>
+                </tr>
+                <tr>
+                  <td>getErrors</td>
+                  <td>Returns error object messages {}</td>
+                </tr>
+                </tbody>
+              </table>
+			    <h2 id="validation-flows">Validation Flow</h2>
+          <ul class="-tree">
+						<li><h4>Initialize DalinaFVS</h4><small>Set configs, Check/Verify Form Existence, Add Input Listeners, Add Submit Handlers</small></li>
+            <li><h4>User Submits Form</h4><small>[ button click(),  Call .onValidateCallback() ] </small></li>
+            <li><h4>DalinaFVS Intercepts Submit</h4><small>[ activate the input listeners, and submit handlers ]</small></li>
+            <li><h4>Run Bowser Default Validation and Custom Validators</h4><small>[ check Validity, report validity ]</small></li>
+            <li><h4>Display Indicators</h4><small>[ logs data or errors options.log && options.debug ]</small></li>
+            <li><h4>Is Form Valid?</h4></li>
+						<li class="-branch">
+							<ul>
+								<li class="-success"><h4>Validation Passed</h4><small>[ call onSuccessCallback ]</small></li>
+								<li class="-error">
+									<h4>Validation Failed</h4><small>[ call onErrorCallback ]</small>
+								</li>
+								</ul>
+						</li>
+						<li class="-branch">
+							<ul>
+								<li class="-success">
+									<h4>Allow Form Submit</h4><small>[ if onSuccessCallback not set ]</small>
+								</li>
+								<li class="-error">
+									<h4>Prevent Form Submit Failed</h4><small>Return/Log Errors</small>
+								</li>
+							</ul>
+						</li>
+          </ul>
+					<h2 id="error-handling">Error Handling</h2>
+					<p>This library uses a safe and predictable error-handling system to protect both developers and
+					users.</p>
+					
+					<p>When debug mode is enabled, configuration problems such as invalid form selectors, wrong hook types, or incorrect
+					validator definitions will throw clear JavaScript errors in the console. This helps developers quickly find and fix
+					issues during development.</p>
+					<pre><code><table><tbody>
+						<tr><td>1</td><td>const loginFVS = new DalinaFVS('#loginForm', {debug:true});</td></tr>
+						</tbody></table></code></pre>
+
+					
+					<p>When debug mode is disabled (production mode), this library does not break the page, allowing the application to respond without exposing
+					technical details to users.</p>
+					
+					<p>All validation failures are handled through
+					controlled result states rather than unhandled exceptions. This ensures that the form remains secure, stable, and
+					predictable in every situation.</p>
+
+					<pre><code><table><tbody>
+						<tr><td>1</td><td>loginFVS.onError( function(errors){ console.log(errors) } )</td></tr>
+						</tbody></table></code></pre>
+					<pre><code><table><tbody>
+											<tr><td>1</td><td>loginFVS.onError( ()=> console.log(loginFVS.getErrors()); )</td></tr>
+											</tbody></table></code></pre>
+
+						<pre><code><table><tbody>
+												<tr><td>1</td><td>console.log(loginFVS.getErrors());</td></tr>
+												</tbody></table></code></pre>
+					
+					<p>In short, DalinaFVS provides strict errors for developers and safe behavior for users, making it suitable for both testing
+					and live production environments.</p>
+			</div>
+			<div id="_api-reference" class="-block">
+				<h2 id="api-reference">API Reference</h2>
+				<p>Dalina Form Validation Security (PreFVS) provides a small and simple API designed for fast and secure form validation.</p>
+				<pre><code><table><tbody>
+					<tr><td>1</td><td>new DalinaFVS(selector = String, options = Object);</td></tr>
+					</tbody></table></code></pre>				
+				
+				<p>Creates a new validation instance for the target form.</p>
+				
+				<p><strong>selector</strong> — A HTML selector for the form element.</p>
+				
+				<p><strong>options</strong> — An optional configuration object (logs, debug mode, security checks, custom css).</p>
+				<ul class="-map">
+						<li><a href="#_DalinaFVS()" class="-navlink"
+										data-target="_examples">DalinaFVS()</a></li>
+						<li><a href="javascript:void(0);">Options</a>
+							<ul class="open">
+							<li><a href="#_options" class="-navlink"
+										data-target="_examples">log [Boolean]</a></li>
+							<li><a href="#_options" class="-navlink" data-target="_examples">debug [Boolean]</a></li>
+							<li><a href="#_options" class="-navlink" data-target="_examples">style [String]</a></li>
+							<li><a href="#_options" class="-navlink" data-target="_examples">bait [Boolean]</a></li>
+							<li><a href="#_options" class="-navlink" data-target="_examples">defaultKey [String]</a></li>
+							</ul></li>
+						<li><a href="javascript:void(0);">Hooks & Events</a>
+							<ul class="open">
+								<li>addValidator(selector, fn())</li>
+								<li>onValidate(fn())</li>
+								<li>onSuccess(fn(data))</li>
+								<li>onError(fn(errors))</li>
+							</ul>
+						</li>
+						<li><a href="javascript:void(0);">Data & Error Collection</a>
+							<ul class="open">
+								<li>getErrors()</li>
+								<li>getData()</li>
+								<li>getValidationErrors()</li>
+							</ul>
+						</li>
+						<li><a href="javascript:void(0);">Misc Methods</a>
+							<ul class="open">
+								<li>init()</li>
+								<li>validate()</li>
+								<li>clear()</li>
+								<li>reset()</li>
+								<li>refresh()</li>
+								<li>destroy()</li>
+							</ul>
+						</li>
+				</ul>
+				</div>
+				<div id="_examples" class="-block -active">
+				<h2 id="examples">Examples</h2>
+				<p id="_DalinaFVS()">Basic usage of this Library does not require the options parameter for it has default values.</p> 
+				<h4>Initializing</h4>
+				<pre><code><table><tbody>
+					<tr><td>1</td><td>new DalinaFVS("#formID");</td></tr>
+				</tbody></table></code></pre>
+				<p>Declaring it as a variable:</p>
+				<pre><code><table><tbody>
+									<tr><td>1</td><td>const formFVS = new DalinaFVS("#formID");</td></tr>
+								</tbody></table></code></pre>
+				<h4 id="_options">Initializing with options</h4>
+				<p>When log is set to true, it allows you to monitor the Library actions in the console.</p>
+				<p>When debug is set to true, it allows you to monitor the Library errors in the console.</p>
+				<p>Enabling Bait, well 2 add hidden inputs. One will null value, and one with a default value which helps detects bot activity.</p>
+				<p>You can set custom defaultKey from a server side like session token. And these bait inputs can be check on the server side validation.</p>
+				<p>Style option allows you to add custom css style for the validation indicator, it will also allows the user to overide css style indicators in the library.</p>
+				<pre><code><table><tbody>
+							<tr><td>1</td><td>const formFVS = new DalinaFVS("#formID", {"log":true, "debug":true,</td></tr>
+							<tr><td>2</td><td>	"log":true,</td></tr>
+							<tr><td>3</td><td>	"debug":true,</td></tr>
+							<tr><td>4</td><td>	"bait":true,</td></tr>
+							<tr><td>5</td><td>	"defaultKey":"000-00-0000",</td></tr>
+							<tr><td>6</td><td>	"style":`input:user-invalid{color:#ff0000;}`</td></tr>
+							<tr><td>7</td><td>  });</td></tr>
+					</tbody></table></code></pre>
+				<h4 id="_addValidator()">Hooks and Events</h4>
+				<p>addValidator("input_selector", fn()) -  Ways to add custom validation rule hook. With two required parameters, the input field and the custom rule validation function which return the error message.</p>
+				<pre><code><table><tbody>
+											<tr><td>1</td><td>const formFVS = new DalinaFVS("#formID")</td></tr>
+											<tr><td>2</td><td>	.addValidator(</td></tr>
+											<tr><td>3</td><td>	    'input[type="email"]',</td></tr>
+											<tr><td>4</td><td>	     function(v){ </td></tr>
+											<tr><td>5</td><td>  		return v && v.toString().endsWith('@gmail.com') ? null : `Value ${v} must ends with "@gmail.com".`</td></tr>
+											<tr><td>6</td><td>   	     }</td>
+											<tr><td>7</td><td>  	);</td></tr>
+									</tbody></table></code></pre>
+				<p>This example validates the email input, which value must endsWith @gmail.com, if not valid if will report this error and set it in as placeholder in the input `Value ${v} must ends with "@gmail.com".`</p>					
+				<p>The above example accepts 2 parameters, but this hooks may also accepts single parameter in single object form, like {"selector": "", "rule":fn()}</p>
+			<pre><code><table><tbody>
+							<tr><td>1</td><td>const formFVS = new DalinaFVS("#formID")</td></tr>
+							<tr><td>2</td><td>	.addValidator(</td></tr>
+							<tr><td>3</td><td>	    {"selector": 'input[type="email"]',</td></tr>
+							<tr><td>4</td><td>	     "rule": function(v){ </td></tr>
+							<tr><td>5</td><td>  		return v && v.toString().endsWith('@gmail.com') ? null : `Value ${v} must ends with "@gmail.com".`}</td></tr>
+							<tr><td>6</td><td>   	     }</td>
+							<tr><td>7</td><td>  	);</td></tr>
+					</tbody></table></code></pre>
+					<p>An array of object can also be accepted, like [{"selector":value, "rule": fn()}, {....}]</p>
+			</div>
 		</main>
 	</div>
 	<script>
-		const navlinks = document.querySelectorAll("aside nav ul li a");		
+		const navlinks = document.querySelectorAll("a.-navlink");		
 		navlinks.forEach(link => {
 				link.addEventListener("click", e => {			
 							// Remove all active states first
@@ -512,12 +898,41 @@
 			        let activeBlock = e.currentTarget.getAttribute('data-target');
               document.getElementById(activeBlock).classList.add('-active');
 							// Walk UP the tree and activate every parent <li>
+							let cur = document.querySelector('a[href="'+activeBlock.replace("_", "#")+'"]');
+							console.log(cur);
+							if(cur){
+								cur.parentElement.closest("li").classList.add("active");
+								cur.classList.add("active");
+								}
 							while (current && current.matches("li")) {
 									current.classList.add("active");
 									current = current.parentElement.closest("li");
 								}
 						});
-				});
+				}); 
+		/*document.querySelectorAll("ul.-map li ul.open").forEach(ul => {
+				ul.style.height = ul.scrollHeight + "px";
+		}); */
+		const mapnav = document.querySelectorAll("ul.-map li a");	
+		mapnav.forEach(nav => {			
+			nav.addEventListener('click', function(){ 
+				  const ul = this.nextElementSibling; 
+					if(!ul) return;  
+					if (!ul.classList.contains("open")) {
+					// OPEN
+					ul.classList.add("open");
+					ul.style.height = ul.scrollHeight + "px";
+					} else {
+					// CLOSE
+					ul.style.height = ul.scrollHeight + "px"; // set current height first
+					requestAnimationFrame(() => {
+					ul.style.height = "0px";
+					ul.classList.remove("open");
+					});
+					}
+					//childUL.classList.toggle('open');
+			})			
+		});	
 	</script>
 </body>
 

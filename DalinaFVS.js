@@ -100,7 +100,7 @@
               
               _logMessenger('Submit button was triggered...');
               if (_validateCallback && typeof _validateCallback === "function") {
-                  _validateCallback(_form);
+                  _validateCallback();
                 }
               _button.classList.add('loading');
               if (!e.isTrusted && unTrusted) {
