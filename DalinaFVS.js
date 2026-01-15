@@ -135,7 +135,7 @@
                 }
               if (_successCallback && typeof _successCallback === "function") {
                   e.preventDefault();
-                  _successCallback(_form);
+                  _successCallback(self.getData());
                   _button.classList.remove('loading');
                 }
               if (_options.log) console.table(self.getData());
@@ -548,7 +548,7 @@
             el.setCustomValidity("");
             if (!el.checkValidity()) valid = false;
           if (!el.checkValidity() && _errorCallback && typeof _errorCallback === "function") {
-              _errorCallback(self.getValidationErrors());
+              _errorCallback(self.getErrors());
             }
             if (!_firstInvalid && !el.checkValidity()) {
                 _firstInvalid = el;
