@@ -33,6 +33,7 @@
   function DalinaFVS(form, options) {
     const self = this;
     const _listeners = new WeakMap();
+    const _errors =[];
     let _mounted = false;
     // let _disabled = false;
     let _validators = [];
@@ -59,8 +60,7 @@
     let _form = document.querySelector(form) || null;
     let _button = null;
     let _inputs = [];
-    const _cStyle = '.__formDalinaFVS';
-    
+    const _cStyle = '.__formDalinaFVS';    
     function _logMessenger(_m) {
         if (_options.log) {
           console.log(_m);
@@ -115,7 +115,8 @@
                   _button.classList.remove('loading');
                   //self.enable();
                 }, 500);
-                if(_options.debug) throw self.getErrors();  
+                _errors.push(self.getValidationErrors());
+                if(_options.debug) throw self.getValidationErrors();  
               }
             }); 
           }
@@ -127,6 +128,7 @@
               _createHiddenInput("pragmatic", !_isUserTyping());            
               // run validation on all
               if (!_form.checkValidity()) {
+                  _errors.push(new Error(`Form validation failed.`));
                   if (_options.debug) throw new Error(`Form validation failed.`);
                   e.preventDefault();
                   _form.reportValidity();
@@ -174,12 +176,6 @@
         Object.entries(handlers).forEach(([event, fn]) => {
             _i.addEventListener(event, fn);
           });
-        // _i.addEventListener("keydown", handlers.keydown);
-        // _i.addEventListener("keyup", handlers.keyup);
-        // _i.addEventListener("paste", handlers.paste);
-        // _i.addEventListener("focus", handlers.focus);
-        // _i.addEventListener("change", handlers.change);
-        // _i.addEventListener("input", handlers.input);
       }
     function _appendStyle(_s) {
       _logMessenger('Adding validation indicator styles...');
@@ -348,6 +344,7 @@
       }  
     function _objCheck(_o) {
         if (!_o.selector || !_o.rule) {
+          _errors.push(new Error('Object does not properly contain the selector and rule keys.'));
           if (_options.debug)
             throw new Error(
               'Object does not properly contain the selector and rule keys.'
@@ -362,6 +359,7 @@
         if (typeof _s === 'string') {
           _i = d.querySelector(_s);
           if (!(_i instanceof HTMLElement)) {
+            _errors.push(new Error(`Element selector "${_s}" does not exists.`));
             if (_options.debug)
               throw new Error(`Element selector "${_s}" does not exists.`);
             return;
@@ -448,6 +446,7 @@
                   _objCheck(item);
                 });
               } else {
+                  _errors.push(new Error('Array must contain only plain objects.'));
                   if (_options.debug) throw new Error('Array must contain only plain objects.');
                 }
           }
@@ -460,12 +459,14 @@
     this.onSuccess = function (_c) {
         _logMessenger('Form was successfully submitted...');
         if (_successCallback) {
+            _errors.push(new Error("Success callback is already registered"));
             if (_options.debug) throw new Error("Success callback is already registered");
           }
         if (typeof _c === "function") {
             _successCallback = _c;
           }
         else if (_c !== null && _options.debug === true) {
+            _errors.push(new Error('Callback is not a valid function and cannot be executed:"' + typeof _c + '"'));
             throw new Error('Callback is not a valid function and cannot be executed:"' + typeof _c + '"');
           }
         return this;
@@ -473,12 +474,14 @@
     this.onError = function (_c) {
         _logMessenger('Form validation failed...');
         if (_errorCallback) {
+          _errors.push(new Error("Error callback is already registered"));
           if (_options.debug) throw new Error("Error callback is already registered");
         }
         if (typeof _c === "function") {
           _errorCallback = _c;
         }
         else if (_c !== null && _options.debug === true) {
+          _errors.push(new Error('Callback is not a valid function and cannot be executed:"' + typeof _c + '"'));
           throw new Error('Callback is not a valid function and cannot be executed:"' + typeof _c + '"');
         }
         return this;
@@ -486,12 +489,14 @@
     this.onValidate = function (_c) {
         _logMessenger('Form is being validated...');
         if (_validateCallback) {
+          _errors.push(new Error("Validate callback is already registered"));
           if (_options.debug) throw new Error("Validate callback is already registered");
         }
         if (typeof _c === "function") {
           _validateCallback = _c;
         }
         else if (_c !== null && _options.debug === true) {
+          _errors.push(new Error('Callback is not a valid function and cannot be executed:"' + typeof _c + '"'));
           throw new Error('Callback is not a valid function and cannot be executed:"' + typeof _c + '"');
         }
         return this;
@@ -543,7 +548,7 @@
             el.setCustomValidity("");
             if (!el.checkValidity()) valid = false;
           if (!el.checkValidity() && _errorCallback && typeof _errorCallback === "function") {
-              _errorCallback(self.getErrors());
+              _errorCallback(self.getValidationErrors());
             }
             if (!_firstInvalid && !el.checkValidity()) {
                 _firstInvalid = el;
@@ -574,8 +579,8 @@
           el.removeAttribute("placeholder");
         });
         return this;
-      }; 
-    this.getErrors = function () { 
+      };
+    this.getValidationErrors(){
         const errors = {};
 
         _inputs.forEach(el => {
@@ -595,6 +600,9 @@
         err.name = "DalinaFVS Error";
         err.errors = errors;
         return err;
+      }   
+    this.getErrors = function () { 
+        return _errors;
         // throw err;
       };  
     this.getData = function () {
