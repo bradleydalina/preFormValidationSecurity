@@ -543,45 +543,14 @@
             el.setCustomValidity("");
             if (!el.checkValidity()) valid = false;
           if (!el.checkValidity() && _errorCallback && typeof _errorCallback === "function") {
-              _errorCallback(_form);
+              _errorCallback(self.getErrors());
             }
             if (!_firstInvalid && !el.checkValidity()) {
                 _firstInvalid = el;
               }  
           });
         return valid;
-      };
-    // this.enable = function () {
-    //     if (!_disabled) return this;
-    //     _inputs.forEach(el => {
-    //         el.removeAttribute("disabled");
-    //       });
-
-    //     if (_button) {
-    //         _button.removeAttribute("disabled");
-    //         _button.classList.remove("dfvs-disabled");
-    //       }
-
-    //     _disabled = false;
-    //     return this;
-    //   };  
-    // this.disable = function () {
-    //     if (_disabled) return this;
-
-    //     _inputs.forEach(el => {
-    //       if(!["button", "reset", "submit"].includes(el.type))
-    //         el.disabled=true;
-    //         // el.setAttribute("disabled", "disabled"); 
-    //       });
-
-    //     if (_button) {
-    //       // _button.setAttribute("disabled", "disabled");
-    //       _button.classList.add("dfvs-disabled");
-    //     }
-
-    //     _disabled = true;
-    //     return this;
-    //   };  
+      }; 
     this.reset = function () {
         _inputs.forEach(el => {
           el.value = "";
