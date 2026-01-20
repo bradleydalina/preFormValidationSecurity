@@ -47,15 +47,15 @@
     let _isManualInput = false;
     let _keyboardEvents = 0;
     let _mouseEvents = 0;
-    let _options = Object.freeze(options || {
+    let _options = Object.freeze({
         //Security
-        bait: false,
-        defaultKey: '000-00-0000',
+        bait: options.bait || false,
+        defaultKey: options.defaultKey || '000-00-0000',
         //Helper
-        log: true,
-        debug: true,
+        log: options.log || false,
+        debug: options.debug || false,
         //Style
-        style: null
+        style: options.style || null
       });
     let _form = document.querySelector(form) || null;
     let _button = null;
@@ -100,6 +100,7 @@
               
               _logMessenger('Submit button was triggered...');
               if (_validateCallback && typeof _validateCallback === "function") {
+                  console.time("Validation");
                   _validateCallback();
                 }
               _button.classList.add('loading');
@@ -330,10 +331,16 @@
         cssText += _options.style || '';
 
         if (!d.getElementById('DalinaFVS-CSS')) {
-          const style = d.createElement('style');
-          style.id = 'DalinaFVS-CSS';
-          style.textContent = cssText || '';
-          d.head.appendChild(style);
+          // Create a Blob and Blob URL
+          const cssBlob = new Blob([cssText], { type: 'text/css' });
+          const blobURL = URL.createObjectURL(cssBlob);
+        
+          // Create a <link> element for the blob URL
+          const link = document.createElement('link');
+          link.setAttribute('id', 'DalinaFVS-CSS');
+          link.setAttribute('rel', 'stylesheet');
+          link.setAttribute('href', blobURL);
+          document.head.appendChild(link); 
         }
       }
     function _isUserTyping() {
@@ -520,7 +527,7 @@
           if (_options.bait) {
 
             _removeIfExists('input[name="NFrmKey"]');
-            _createHiddenInput("NFrmKey", false);
+            _createHiddenInput("NFrmKey");
 
             _removeIfExists('input[name="DFrmKey"]');
             _createHiddenInput("DFrmKey", _options.defaultKey, [{ "required": "required" }]);
@@ -554,6 +561,7 @@
                 _firstInvalid = el;
               }  
           });
+        if(_options.log) console.timeEnds("Validation");  
         return valid;
       }; 
     this.reset = function () {
@@ -580,7 +588,7 @@
         });
         return this;
       };
-    this.getValidationErrors(){
+    this.getValidationErrors = function(){
         const errors = {};
 
         _inputs.forEach(el => {
@@ -600,7 +608,7 @@
         err.name = "DalinaFVS Error";
         err.errors = errors;
         return err;
-      }   
+      };   
     this.getErrors = function () { 
         return _errors;
         // throw err;
@@ -688,15 +696,15 @@
 
 //https://jshint.com/
 //https://validatejavascript.com/
-const fvs = new DalinaFVS("form");
+// const fvs = new DalinaFVS("form");
 
-fvs.addValidator('input#fname', (v) => v && v.toString().startsWith('Bradley') ? null : `Value ${v} must starts with "Bradley".`) 
-.onValidate(function(){
-  console.info("Validating your form!");
-}).onSuccess(function(){
-  console.warn("Your form was successfully validated.");
-}).onError(function(){
-  console.error("Validation failed");
-});
+// fvs.addValidator('input#fname', (v) => v && v.toString().startsWith('Bradley') ? null : `Value ${v} must starts with "Bradley".`) 
+// .onValidate(function(){
+//   console.info("Validating your form!");
+// }).onSuccess(function(){
+//   console.warn("Your form was successfully validated.");
+// }).onError(function(){
+//   console.error("Validation failed");
+// });
 // console.log(fvs.getData()); 
 // console.log(document.querySelector('form:nth-child(3) > input:nth-child(8)').type); 
