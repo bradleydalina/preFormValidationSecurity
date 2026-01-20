@@ -682,6 +682,9 @@
     this.refresh = function () {
       return this.destroy().init();
     };
+    this.form = function(){
+      return _form;
+    }
     this.init();
   }
   w.DalinaFVS = DalinaFVS;
