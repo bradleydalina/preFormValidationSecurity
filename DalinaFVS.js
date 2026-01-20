@@ -62,10 +62,10 @@
     let _inputs = [];
     const _cStyle = '.__formDalinaFVS';    
     function _logMessenger(_m) {
-        if (_options.log) {
-          console.log(_m);
+          if (_options.log) {
+            console.log(_m);
+          }
         }
-      }
     function _createHiddenInput(name, value = null, attributes = []) {
         _logMessenger(`Creating hidden input element ${name}...`);
         const newInput = d.createElement('input');
