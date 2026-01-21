@@ -11,9 +11,10 @@
     const _form = document.querySelector(form) || null;
     const _button = null;
     //Errors
+    let _error;
     const _errorCollection =[];
     //FormData
-    const _formData =[];
+    const _formData =null;
     const _xhr = null;
     //Options & Config
     const _method = options.method || _form.method;
@@ -54,49 +55,49 @@
                         _xhr = new XMLHttpRequest();
                         _xhr.open(_method, _action, true);
                         for (const header in _headers) {
-                                xhr.setRequestHeader(header, _headers[header]);
+                                _xhr.setRequestHeader(header, _headers[header]);
                             }
-                        xhr.onload = function () {
-                            if (xhr.readyState === 4) {
-                                if (xhr.status >= 200 && xhr.status < 300) {  
-                                        _logger(xhr.responseType);
-                                        _logger(`Form submitted successfully: ${xhr.responseType === 'json' ? xhr.responseText : xhr.responseType.toUppereCase()+' Response'}.`);
-                                        if (_onSuccessCallback) {
+                        _xhr.onload = function () {
+                            if (_xhr.readyState === 4) {
+                                if (_xhr.status >= 200 && _xhr.status < 300) {  
+                                        _logger(_xhr.responseType);
+                                        _logger(`Form submitted successfully: ${_xhr.responseType === 'json' ? _xhr.responseText : _xhr.responseType.toUppereCase()+' Response'}.`);
+                                        if (_successCallback) {
                                             try {
-                                                    _onSuccessCallback(JSON.parse(xhr.response));
+                                                    _successCallback(JSON.parse(_xhr.response));
                                                 } catch (e) {
-                                                        _onSuccessCallback(xhr.response);
+                                                        _successCallback(_xhr.response);
                                                     }
                                             }
                                     } else {
-                                            if (_debug) throw new Error(`${xhr.status} Form submission failed at ${xhr.statusText ? xhr.statusText : xhr.responseURL}.`);
-                                            _logger(xhr);
-                                            if (_onErrorCallback) {
-                                                    _onErrorCallback({ "error": true, "title": `${xhr.status} ${xhr.statusText}`, "message": xhr.responseURL });
+                                            if (_debug) throw new Error(`${_xhr.status} Form submission failed at ${_xhr.statusText ? _xhr.statusText : _xhr.responseURL}.`);
+                                            _logger(_xhr);
+                                            if (_errorCallback) {
+                                                    _errorCallback({ "error": true, "title": `${_xhr.status} ${_xhr.statusText}`, "message": _xhr.responseURL });
                                                 }
                                         }
                                 }
                             }
-                        xhr.onerror = function () {
-                                if (_onErrorCallback) {
-                                        _onErrorCallback({ "error": true, "title": `${xhr.status} ${xhr.statusText}`, "message": xhr.responseURL });
+                        _xhr.onerror = function () {
+                                _error = `ERROR: ${_xhr.status} ${_xhr.statusText} ${_xhr.responseURL}`;
+                                _errorCollections.push(_error);
+                                if (_errorCallback) {
+                                        _errorCallback({ "error": true, "title": 'Network Error', "message": _error });
                                     }                                
                                 if (_debug) throw new Error('Network error occurred during form submission.');
                             }
-                        if (_submitCallback) {
-                                    _submitCallback();
-                                }
+                        if (_submitCallback) _submitCallback();
                         _mounted = true;
                         
                     }else{
-                            const err = `Invalid HTMLFormElement "${form}"`;
-                            _errorCollections.push(err);
-                            if (_debug) throw new Error(err);
+                            _error = `Invalid HTMLFormElement "${form}"`;
+                            _errorCollections.push(_error);
+                            if (_debug) throw new Error(_error);
                         }
             return this;            
         };
     this.send= function(){
-            xhr.send(formData); 
+            _xhr.send(formData); 
         };            
     this.init();
   }
