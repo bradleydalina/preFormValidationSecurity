@@ -6,7 +6,7 @@
 (function (d, w) {
         function DalinaFVS(form, options=null) {
                 const self = this;
-                const _mounted = false;
+                let _mounted = false;
                 //Selector
                 const _form = _verifySelector(form);
                 const _button = _form ? _form.querySelector('[type="submit"]') : null;
@@ -14,9 +14,9 @@
                 let _error;
                 const _errorCollection =[];
                 //FormData
-                const _formData =null;
-                const _xhr = null;
-                const _agentData =null;
+                let _formData =null;
+                let _xhr = null;
+                let _agentData =null;
                 //Options & Config
                 const _method = options.method || (_form ? _form.method : null);
                 const _action = options.action || (_form ? _form.action : null);
@@ -29,9 +29,9 @@
                 const _userAgent=true; //done
                 const _reqSign=options.signature || null; //done
                 //Callbacks
-                const _successCallback = null;
-                const _errorCallback = null;
-                const _submitCallback=null;   
+                let _successCallback = null;
+                let _errorCallback = null;
+                let _submitCallback=null;   
                 //Private Functions
                 async function _encryptGCM(plainText, key) {
                         const enc = new TextEncoder();
@@ -56,7 +56,7 @@
                 function _verifySelector(selector) {
                         try {
                                     return d.querySelector(selector);
-                                } catch {
+                                } catch(e) {
                                         return null;
                                     }
                     }
@@ -73,7 +73,7 @@
                                     setTimeout(() => {
                                             _button.classList.remove('loading');
                                             _button.removeAttribute('disabled');
-                                        }, 500)
+                                        }, 500);
                                 }
                     }
                 function _getAgentData(){
@@ -141,12 +141,12 @@
                         _logger('Getting the error collection data');
                         return _errorCollection;
                     };
-                this.onSuccess = function(){
+                this.onSuccess = function(_c){
                         _logger('Ajax request was successfully submitted...');
                         if (_successCallback) {
                                 _error = "Success callback is already registered";
                                 _errorCollection.push(new Error(_error));
-                                if (_options.debug) throw new Error(_error);
+                                if (_debug) throw new Error(_error);
                             }
                         if (typeof _c === "function") {
                                 _successCallback = _c;
@@ -158,12 +158,12 @@
                             }
                         return this;
                     };
-                this.onSubmit = function(){
+                this.onSubmit = function(_c){
                         _logger('Ajax request is being submitted...');
                         if (_submitCallback) {
                                 _error = "Submit callback is already registered";
                                 _errorCollection.push(new Error(_error));
-                                if (_options.debug) throw new Error(_error);
+                                if (_debug) throw new Error(_error);
                             }
                         if (typeof _c === "function") {
                                 _submitCallback = _c;
@@ -175,12 +175,12 @@
                             }
                         return this;
                     };
-                this.onError = function(){
+                this.onError = function(_c){
                         _logger('Ajax request failed...');
                         if (_errorCallback) {
                             _error = "Error callback is already registered";
                             _errorCollection.push(new Error(_error));
-                            if (_options.debug) throw new Error(_error);
+                            if (_debug) throw new Error(_error);
                         }
                         if (typeof _c === "function") {
                             _errorCallback = _c;
@@ -208,8 +208,7 @@
                                         }
                                     if(_serialize) _xhr.setRequestHeader('X-serialized', 'true');
                                     if(_encryptKey) _xhr.setRequestHeader('X-encryptGCM', 'true');  
-                                    if(_reqSign) _xhr.setRequestHeader(_reqSign['header'], _reqSign['value']);    
-                                    _xhr.setRequestHeader(, _headers[header]);    
+                                    if(_reqSign) _xhr.setRequestHeader(_reqSign.header, _reqSign.value); 
                                     _xhr.onload = function () {
                                             if (_xhr.readyState === 4) {
                                                     if (_xhr.status >= 200 && _xhr.status < 300) {  
@@ -231,20 +230,20 @@
                                                             }
                                                     _loading(false);    
                                                 }
-                                        }
+                                        };
                                     _xhr.onerror = function () {
                                             _loading(false); 
                                             _error = `ERROR: ${_xhr.status} ${_xhr.statusText} ${_xhr.responseURL}`;
-                                            _errorCollections.push(_error);
+                                            _errorCollection.push(_error);
                                             if (_errorCallback) {
                                                     _errorCallback({ "error": true, "title": 'Network Error', "message": _error });
                                                 }                                
                                             if (_debug) throw new Error('Network error occurred during form submission.');
-                                        }
+                                        };
                                     if (_submitCallback) _submitCallback();  
                                 }else{
                                         _error = `Invalid HTMLFormElement "${form}"`;
-                                        _errorCollections.push(_error);
+                                        _errorCollection.push(_error);
                                         if (_debug) throw new Error(_error);
                                     }
                         return this;            
