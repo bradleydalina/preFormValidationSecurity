@@ -25,8 +25,8 @@
                 const _headers = Object.freeze(options.headers || {});
                 //Security
                 const _encrypt = true;
-                const _serialize = true;
-                const _userAgent=true;
+                const _serialize = true; //done
+                const _userAgent=true; //done
                 const _reqSign=true;
                 //Callbacks
                 const _successCallback = null;
@@ -80,7 +80,21 @@
                             }
                             _agentData = navigator.userAgent || "unknown";
                         return _agentData;
-                    }        
+                    }  
+                function _serializedIntegrity(){
+                        var fd = new FormData();
+                        _formData.forEach(function (value, key) {
+                                fd.append(
+                                        key,
+                                        JSON.stringify({
+                                                value: value,
+                                                type: typeof value,
+                                                length: String(value).length
+                                            })
+                                    );
+                            });
+                        return fd;
+                    }          
                 //Public Hook Functions
                 this.getAgentData = function(){
                         return _getAgentData();
