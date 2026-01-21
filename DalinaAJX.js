@@ -16,7 +16,7 @@
                 //FormData
                 const _formData =null;
                 const _xhr = null;
-                const _agentData =[];
+                const _agentData =null;
                 //Options & Config
                 const _method = options.method || (_form ? _form.method : null);
                 const _action = options.action || (_form ? _form.action : null);
