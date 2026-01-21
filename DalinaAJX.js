@@ -4,7 +4,7 @@
   Distributed under the MIT License (license terms are at http://opensource.org/licenses/MIT).
 */
 (function (d, w) {
-        function DalinaFVS(form, options) {
+        function DalinaFVS(form, options=null) {
                 const self = this;
                 const _mounted = false;
                 //Selector
@@ -24,15 +24,35 @@
                 const _debug = options.debug || false;
                 const _headers = Object.freeze(options.headers || {});
                 //Security
-                const _encrypt = true;
+                const _encryptKey = options.encryptKey || null; //done
                 const _serialize = true; //done
                 const _userAgent=true; //done
-                const _reqSign=true;
+                const _reqSign=options.signature || null; //done
                 //Callbacks
                 const _successCallback = null;
                 const _errorCallback = null;
                 const _submitCallback=null;   
                 //Private Functions
+                async function _encryptGCM(plainText, key) {
+                        const enc = new TextEncoder();
+                        const iv = crypto.getRandomValues(new Uint8Array(12));
+                        const cryptoKey = await crypto.subtle.importKey(
+                                "raw",
+                                enc.encode(key),
+                                "AES-GCM",
+                                false,
+                                ["encrypt"]
+                            );
+                        const encrypted = await crypto.subtle.encrypt(
+                                { name: "AES-GCM", iv },
+                                cryptoKey,
+                                enc.encode(plainText)
+                            );
+                        return {
+                                iv: btoa(String.fromCharCode(...iv)),
+                                data: btoa(String.fromCharCode(...new Uint8Array(encrypted)))
+                            };
+                    }
                 function _verifySelector(selector) {
                         try {
                                     return d.querySelector(selector);
@@ -82,11 +102,16 @@
                         return _agentData;
                     }  
                 function _serializedIntegrity(){
-                        var fd = new FormData();
+                        let fd = new FormData();
                         _formData.forEach(function (value, key) {
                                 fd.append(
                                         key,
-                                        JSON.stringify({
+                                        _encryptKey ? 
+                                        _encryptGCM(JSON.stringify({
+                                                value: value,
+                                                type: typeof value,
+                                                length: String(value).length
+                                            }), _encryptKey) : JSON.stringify({
                                                 value: value,
                                                 type: typeof value,
                                                 length: String(value).length
@@ -94,7 +119,14 @@
                                     );
                             });
                         return fd;
-                    }          
+                    }
+                function _nonSerializedEncryption(){
+                        let fd = new FormData();
+                        _formData.forEach(function (value, key) {
+                                fd.append(key, _encryptKey ? _encryptGCM(value, _encryptKey) : value);
+                            });
+                        return fd;
+                    }               
                 //Public Hook Functions
                 this.getAgentData = function(){
                         return _getAgentData();
@@ -170,6 +202,10 @@
                                     for (const header in _headers) {
                                             _xhr.setRequestHeader(header, _headers[header]);
                                         }
+                                    if(_serialize) _xhr.setRequestHeader('X-serialized', 'true');
+                                    if(_encryptKey) _xhr.setRequestHeader('X-encryptGCM', 'true');  
+                                    if(_reqSign) _xhr.setRequestHeader(_reqSign['header'], _reqSign['value']);    
+                                    _xhr.setRequestHeader(, _headers[header]);    
                                     _xhr.onload = function () {
                                             if (_xhr.readyState === 4) {
                                                     if (_xhr.status >= 200 && _xhr.status < 300) {  
@@ -212,9 +248,47 @@
 
                 this.send= function(){
                         _loading(true);
-                        _xhr.send(_formData); 
+                        let _dataSecurity = _serialize ? _serializedIntegrity(_formData) : _nonSerializedEncryption(_formData);
+                        _xhr.send(_dataSecurity); 
                     };            
                 this.init();
             }
         w.DalinaFVS = DalinaFVS;
     })(document, window);
+
+
+//Server Side Unserialize
+// $data = $request->all();
+
+// if (isset($data['username'])) {
+//     $decoded = json_decode($data['username'], true);
+//     if (json_last_error() === JSON_ERROR_NONE) {
+//         $data['username'] = $decoded;
+//     }
+// }
+
+// $validator = Validator::make($data, [
+//     'username.value' => 'required|string',
+// ]);
+
+
+//Server Side Decryption
+
+// function decryptGCM($ciphertextB64, $ivB64, $key)
+// {
+//     $ciphertext = base64_decode($ciphertextB64);
+//     $iv = base64_decode($ivB64);
+
+//     $tagLength = 16;
+//     $tag = substr($ciphertext, -$tagLength);
+//     $data = substr($ciphertext, 0, -$tagLength);
+
+//     return openssl_decrypt(
+//         $data,
+//         'aes-256-gcm',
+//         $key,
+//         OPENSSL_RAW_DATA,
+//         $iv,
+//         $tag
+//     );
+// }
