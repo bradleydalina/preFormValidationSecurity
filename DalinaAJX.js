@@ -296,3 +296,9 @@
 //         $tag
 //     );
 // }
+
+
+
+// console.log(window.isSecureContext);
+// console.log(window.crypto);
+// console.log(typeof crypto?.getRandomValues);
