@@ -18,16 +18,16 @@
                 let _xhr = null;
                 let _agentData =null;
                 //Options & Config
-                const _method = options.method || (_form ? _form.method : null);
-                const _action = options.action || (_form ? _form.action : null);
-                const _showLogs = options.showlogs || false;    
-                const _debug = options.debug || false;
-                const _headers = Object.freeze(options.headers || {});
+                const _method = (options ? options.method :null)  || (_form ? _form.method : null);
+                const _action = (options ? options.action :null) || (_form ? _form.action : null);
+                const _showLogs = (options ? options.showlogs :null) || false;    
+                const _debug = (options ? options.debug :null) || false;
+                const _headers = Object.freeze((options ? options.headers :null) || {});
                 //Security
-                const _encryptKey = options.encryptKey || null; //done
+                const _encryptKey = (options ? (options.encryptKey || null) : null) || null; //done
                 const _serialize = true; //done
                 const _userAgent=true; //done
-                const _reqSign=options.signature || null; //done
+                const _reqSign=options ? options.signature :null; //done
                 //Callbacks
                 let _successCallback = null;
                 let _errorCallback = null;
