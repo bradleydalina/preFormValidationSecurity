@@ -7,32 +7,42 @@
   function DalinaFVS(form, options) {
     const self = this;
     const _mounted = false;
+    //Selector
     const _form = document.querySelector(form) || null;
     const _button = null;
+    //Errors
+    const _errorCollection =[];
+    //FormData
+    const _formData =[];
+    const _xhr = null;
     //Options & Config
     const _method = options.method || _form.method;
     const _action = options.action || _form.action;
-    const _showLogs = options.showlogs || false;
-    const _errorCollection =[];
+    const _showLogs = options.showlogs || false;    
     const _debug = options.debug || false;
-    const _headers = option.headers || {};
-
+    const _headers = options.headers || {};
+    //Security
+    const _encrypt = true;
+    const _serialize = true;
+    const _userAgent=true;
+    const _signature=true;
     //Callbacks
     const _successCallback = null;
     const _errorCallback = null;
-    const _submitCallback=null;
-    
+    const _submitCallback=null;   
+    //Private Functions
     function _logger(_m) {
-        if (_showLogs) {
-          console.log(_m);
+            if (_showLogs) {
+                    console.log(_m);
+                }
         }
-      }
+    //Public Hook Functions  
     this.debugger = function() {
-        return console.error(_errorCollection);
-      }
+            console.error(_errorCollection);
+        }
     this.getErrors = function(){
-        return _errorCollection;
-      }    
+            return _errorCollection;
+        }    
     this.init = function(){
             if (_mounted) return this;
                 _logger("Ajax Security is mounted.");
@@ -40,9 +50,9 @@
                 _form &&
                 _form.nodeType === 1 &&
                 typeof _form.nodeName === 'string') {
-                        const formData = new FormData(_form);
-                        const xhr = new XMLHttpRequest();
-                        xhr.open(_method, _action, true);
+                        _formData = new FormData(_form);
+                        _xhr = new XMLHttpRequest();
+                        _xhr.open(_method, _action, true);
                         for (const header in _headers) {
                                 xhr.setRequestHeader(header, _headers[header]);
                             }
@@ -77,14 +87,17 @@
                                     _submitCallback();
                                 }
                         _mounted = true;
-                        xhr.send(formData); 
+                        
                     }else{
                             const err = `Invalid HTMLFormElement "${form}"`;
                             _errorCollections.push(err);
                             if (_debug) throw new Error(err);
                         }
             return this;            
-        };        
+        };
+    this.send= function(){
+            xhr.send(formData); 
+        };            
     this.init();
   }
   w.DalinaFVS = DalinaFVS;
