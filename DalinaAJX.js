@@ -77,6 +77,7 @@
                                 }
                     }
                 function _getAgentData(){
+                        _logger('Getting the agent data');
                         if (navigator.userAgentData) {
                                 if (navigator.userAgentData?.getHighEntropyValues) {
                                             navigator.userAgentData.getHighEntropyValues([
@@ -102,6 +103,7 @@
                         return _agentData;
                     }  
                 function _serializedIntegrity(){
+                        _logger('Serializing the ajax data');
                         let fd = new FormData();
                         _formData.forEach(function (value, key) {
                                 fd.append(
@@ -122,19 +124,21 @@
                     }
                 function _nonSerializedEncryption(){
                         let fd = new FormData();
+                        if(_encryptKey) _logger('Encrypting the ajax data');
                         _formData.forEach(function (value, key) {
                                 fd.append(key, _encryptKey ? _encryptGCM(value, _encryptKey) : value);
                             });
                         return fd;
                     }               
                 //Public Hook Functions
-                this.getAgentData = function(){
+                this.getAgentData = function(){                       
                         return _getAgentData();
                     };  
                 this.debugger = function() {
                         console.error(_errorCollection);
                     };
                 this.getErrors = function(){
+                        _logger('Getting the error collection data');
                         return _errorCollection;
                     };
                 this.onSuccess = function(){
@@ -246,9 +250,10 @@
                         return this;            
                     };
 
-                this.send= function(){
+                this.send= function(){                        
                         _loading(true);
                         let _dataSecurity = _serialize ? _serializedIntegrity(_formData) : _nonSerializedEncryption(_formData);
+                        _logger('Sending the ajax data');
                         _xhr.send(_dataSecurity); 
                     };            
                 this.init();
