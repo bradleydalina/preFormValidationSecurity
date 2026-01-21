@@ -81,7 +81,10 @@
                             _agentData = navigator.userAgent || "unknown";
                         return _agentData;
                     }        
-                //Public Hook Functions  
+                //Public Hook Functions
+                this.getAgentData = function(){
+                        return _getAgentData();
+                    };  
                 this.debugger = function() {
                         console.error(_errorCollection);
                     };
